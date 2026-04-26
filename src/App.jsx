@@ -399,13 +399,13 @@ const myProjects = [
     id: 3, name: 'Full Stack Portfolio',
     description: 'Production-grade portfolio with live GitHub API, scroll animations, AdiBot AI assistant, dark/light mode, and mobile-first responsive design.',
     metrics: ['<1.5s load time on Vite build', 'Live GitHub API integration', '15+ sections fully responsive'],
-    tech: ['React', 'Framer Motion', 'Vite', 'CSS'], color: '#8b5cf6', icon: <Globe size={24} />, link: 'https://github.com/bhumiadi23', stars: 8, status: 'Live'
+    tech: ['React', 'Framer Motion', 'Vite', 'CSS'], color: '#8b5cf6', icon: <Globe size={24} />, link: 'https://github.com/bhumiadi23/portfolio', stars: 8, status: 'Live'
   },
   {
     id: 4, name: 'Expense Tracker App',
     description: 'Full-featured finance tracker with Chart.js visualizations, budget alerts, savings rate analytics, and persistent local storage.',
     metrics: ['5+ chart types integrated', 'Zero backend — pure frontend PWA', 'Tracks unlimited categories in real-time'],
-    tech: ['React', 'Chart.js', 'CSS', 'LocalStorage'], color: '#22d3ee', icon: <TrendingUp size={24} />, link: 'https://github.com/bhumiadi23', stars: 10, status: 'Live'
+    tech: ['React', 'Chart.js', 'CSS', 'LocalStorage'], color: '#22d3ee', icon: <TrendingUp size={24} />, link: 'https://github.com/bhumiadi23/portfolio/tree/main/expense-tracker', stars: 10, status: 'Live'
   },
   {
     id: 5, name: 'SmartQ Platform',
@@ -441,25 +441,25 @@ const myProjects = [
     id: 10, name: 'AutoIQ Arena',
     description: 'Smart car comparison platform powered by AI. Compare EVs and internal combustion cars side-by-side with full specifications and recommendations.',
     metrics: ['20+ car database', 'AI-powered insights', 'Responsive glassmorphism UI'],
-    tech: ['React', 'TypeScript', 'TailwindCSS', 'Framer Motion'], color: '#3b82f6', icon: <Zap size={24} />, link: 'https://github.com/bhumiadi23', stars: 14, status: 'Live'
+    tech: ['React', 'TypeScript', 'TailwindCSS', 'Framer Motion'], color: '#3b82f6', icon: <Zap size={24} />, link: 'https://github.com/bhumiadi23/portfolio/tree/main/autoiq-arena', stars: 14, status: 'Live'
   },
   {
     id: 11, name: 'DevPulse Analytics',
     description: 'Coding analytics and productivity dashboard for developers to track performance, code quality, and activity trends.',
     metrics: ['Real-time activity tracking', 'Beautiful data visualizations', 'Developer productivity insights'],
-    tech: ['React', 'Vite', 'Recharts', 'Framer Motion'], color: '#10b981', icon: <TrendingUp size={24} />, link: 'https://github.com/bhumiadi23', stars: 22, status: 'Active'
+    tech: ['React', 'Vite', 'Recharts', 'Framer Motion'], color: '#10b981', icon: <TrendingUp size={24} />, link: 'https://github.com/bhumiadi23/portfolio/tree/main/devpulse', stars: 22, status: 'Active'
   },
   {
     id: 12, name: 'Second Brain AI',
     description: 'Intelligent knowledge management system with semantic search and an AI assistant that understands your personal notes and documents.',
     metrics: ['Context-aware semantic search', 'Vector embeddings integration', 'Automated document summarization'],
-    tech: ['React', 'Node.js', 'Express', 'LLM API'], color: '#8b5cf6', icon: <Lightbulb size={24} />, link: 'https://github.com/bhumiadi23', stars: 19, status: 'Active'
+    tech: ['React', 'Node.js', 'Express', 'LLM API'], color: '#8b5cf6', icon: <Lightbulb size={24} />, link: 'https://github.com/bhumiadi23/portfolio/tree/main/second-brain-ai', stars: 19, status: 'Active'
   },
   {
     id: 13, name: 'SwiftShare Ecosystem',
     description: 'Microservices-based peer-to-peer file sharing platform using WebRTC for high-speed, secure, and limitless data transfer.',
     metrics: ['Microservices architecture', 'Real-time WebRTC signaling', 'Zero-knowledge end-to-end encryption'],
-    tech: ['React', 'WebRTC', 'Node.js', 'Microservices'], color: '#ef4444', icon: <Globe size={24} />, link: 'https://github.com/bhumiadi23', stars: 35, status: 'Complete'
+    tech: ['React', 'WebRTC', 'Node.js', 'Microservices'], color: '#ef4444', icon: <Globe size={24} />, link: 'https://github.com/bhumiadi23/portfolio/tree/main/swiftshare', stars: 35, status: 'Complete'
   },
 ];
 
