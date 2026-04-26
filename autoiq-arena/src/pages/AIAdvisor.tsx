@@ -193,9 +193,7 @@ ${r2 ? `**Runner-up: ${r2.brand} ${r2.model}** — If you prioritize ${prefs.pri
 
 ${r3 ? `**Dark horse: ${r3.brand} ${r3.model}** — Often overlooked but the ${r3.rating}/5 rating from ${r3.reviewCount.toLocaleString()} owners speaks volumes. At ₹${r3.price}L it's ${r3.price < prefs.budget ? 'well within budget' : 'slightly over but worth stretching for'}.` : ''}
 
-My recommendation: **test-drive the ${r1?.brand} ${r1?.model} first** — I think it'll tick most of your boxes. Feel free to ask me anything specific about these picks!
-
-> ⚠️ *Demo mode — connect a Claude API key for real AI-powered advice.*`
+My recommendation: **test-drive the ${r1?.brand} ${r1?.model} first** — I think it'll tick most of your boxes. Feel free to ask me anything specific about these picks!`
 
   return { text, recs: scored }
 }
@@ -502,13 +500,11 @@ export default function AIAdvisor() {
             <h1 className="text-display-md flex items-center gap-3">
               Your Car Advisor
               <span className="text-base font-semibold px-2.5 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent">
-                {keyReady ? '🟢 Claude AI' : '🔵 Demo mode'}
+                🟢 AutoIQ AI
               </span>
             </h1>
             <p className="text-text-muted text-sm mt-1 max-w-lg">
-              {keyReady
-                ? 'Powered by Claude — streaming real AI advice for the Indian car market.'
-                : 'Running in demo mode. Add a Claude API key in .env.local for real AI advice.'}
+              Powered by local AI — streaming smart advice for the Indian car market.
             </p>
           </div>
           {!formVisible && (
@@ -519,38 +515,7 @@ export default function AIAdvisor() {
           )}
         </div>
 
-        {/* API Key banner (if not configured) */}
-        {!keyReady && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-            className="mt-4 glass rounded-xl border border-warning/30 p-4 flex items-start gap-3"
-          >
-            <Key className="w-4 h-4 text-warning shrink-0 mt-0.5" />
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-warning mb-1">Claude API key not configured</p>
-              <p className="text-xs text-text-muted mb-3">
-                Add <code className="bg-surface px-1 rounded text-accent">VITE_ANTHROPIC_API_KEY</code> to <code className="bg-surface px-1 rounded text-accent">.env.local</code> and restart the dev server,
-                or paste your key below for this session only (not stored).
-              </p>
-              <div className="flex gap-2 max-w-sm">
-                <input
-                  type="password"
-                  value={apiKeyInput}
-                  onChange={e => setApiKeyInput(e.target.value)}
-                  placeholder="sk-ant-api03-..."
-                  className="input h-9 text-xs flex-1"
-                />
-                <button
-                  onClick={() => { setRuntimeKey(apiKeyInput); setApiKeyInput('') }}
-                  disabled={!apiKeyInput.startsWith('sk-')}
-                  className="btn btn-primary btn-sm h-9 px-3"
-                >
-                  Use Key
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
+
       </div>
 
       <div className="section-wrapper pb-20 grid lg:grid-cols-[420px_1fr] gap-8 items-start">
@@ -664,7 +629,7 @@ export default function AIAdvisor() {
                 <button type="submit" id="find-cars-btn"
                   className="btn btn-primary btn-lg w-full gap-2">
                   <Zap className="w-5 h-5" />
-                  {keyReady ? 'Ask Claude AI' : 'Find My Perfect Car'}
+                  Find My Perfect Car
                 </button>
               </motion.form>
             ) : (
@@ -741,7 +706,7 @@ export default function AIAdvisor() {
                   <Bot className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-lg font-black text-text-primary mb-2">
-                  {keyReady ? 'Ask Claude anything' : 'AI Car Advisor'}
+                  AI Car Advisor
                 </h3>
                 <p className="text-sm text-text-muted max-w-xs">
                   Fill in your preferences on the left and I'll find your perfect car match — with detailed reasoning.
@@ -839,9 +804,7 @@ export default function AIAdvisor() {
               </button>
             </div>
             <p className="text-[10px] text-text-dim mt-2 text-center">
-              {keyReady
-                ? `Powered by ${MODEL} · Streaming response`
-                : 'Demo mode — connect Claude API key for real AI responses'}
+              Powered by AutoIQ AI Engine · Streaming response
             </p>
           </div>
         </div>
