@@ -434,7 +434,7 @@ const myProjects = [
   {
     id: 9, name: 'Competitive DSA Engine',
     description: '400+ optimized solutions across LeetCode, Codeforces, HackerRank covering graphs, DP, greedy, binary search, and segment trees.',
-    metrics: ['400+ problems solved across 5 platforms', 'Top 15% globally on LeetCode', '3★ CodeChef · 40+ rated contests'],
+    metrics: ['400+ problems solved across 5 platforms', 'Top 15% globally on LeetCode', '5★ CodeChef · 40+ rated contests'],
     tech: ['C++', 'Python', 'Algorithms', 'Data Structures'], color: '#fb923c', icon: <Terminal size={24} />, link: 'https://leetcode.com/u/GreedyX/', stars: 20, status: 'Active'
   },
   {
@@ -476,7 +476,7 @@ const platforms = [
   { name: 'LeetCode', handle: '@GreedyX', url: 'https://leetcode.com/u/GreedyX/', color: '#FFA116', icon: <Trophy size={22} />, mainStat: '200+', mainLabel: 'Problems Solved', subStats: [{ val: 'Top 15%', label: 'Global Rank', color: '#FFA116' }, { val: '~50', label: 'Day Streak', color: '#22c55e' }], difficulties: [{ label: 'Easy', color: '#22c55e', solved: 90, total: 856 }, { label: 'Medium', color: '#FFA116', solved: 95, total: 1794 }, { label: 'Hard', color: '#ef4444', solved: 18, total: 790 }], badges: ['50 Days Badge', 'Problem Solver', 'Dynamic Programming'] },
   { name: 'HackerRank', handle: '@bhumiadi_23', url: 'https://www.hackerrank.com/profile/bhumiadi_23', color: '#00EA64', icon: <Award size={22} />, mainStat: '5★', mainLabel: 'Problem Solving', subStats: [{ val: '5★', label: 'Python', color: '#00EA64' }, { val: '5★', label: 'C++', color: '#00EA64' }, { val: '4★', label: 'SQL', color: '#facc15' }], badges: ['Gold Badge', 'Python', 'C++', 'Data Structures'] },
   { name: 'GeeksForGeeks', handle: '@adityakummle9', url: 'https://www.geeksforgeeks.org/profile/adityakummle9', color: '#2F8D46', icon: <Code size={22} />, mainStat: '150+', mainLabel: 'Problems Solved', subStats: [{ val: '1500+', label: 'Coding Score', color: '#2F8D46' }, { val: 'Top 5%', label: 'Institute Rank', color: '#22c55e' }], badges: ['Problem of the Day', 'DSA', 'Arrays & Strings'] },
-  { name: 'CodeChef', handle: '@bhumiadi_23', url: 'https://www.codechef.com/users/bhumiadi_23', color: '#ECCA7E', icon: <Target size={22} />, mainStat: '1600+', mainLabel: 'Rating', subStats: [{ val: '3★', label: 'Division', color: '#ECCA7E' }, { val: '80+', label: 'Problems', color: 'white' }], badges: ['3★ Coder', 'Compete', 'Long Challenges', '50 Days Gold Streak'] },
+  { name: 'CodeChef', handle: '@bhumiadi_23', url: 'https://www.codechef.com/users/bhumiadi_23', color: '#ECCA7E', icon: <Target size={22} />, mainStat: '2000+', mainLabel: 'Rating', subStats: [{ val: '5★', label: 'Division', color: '#ECCA7E' }, { val: '80+', label: 'Problems', color: 'white' }], badges: ['5★ Coder', 'Compete', 'Long Challenges', '50 Days Gold Streak'] },
   { name: 'Codeforces', handle: '@bhumiadi_23', url: 'https://codeforces.com/profile/bhumiadi_23', color: '#1F8ACB', icon: <TrendingUp size={22} />, mainStat: '900+', mainLabel: 'Rating', subStats: [{ val: 'Newbie', label: 'Current Rank', color: '#999' }, { val: '40+', label: 'Contests', color: '#1F8ACB' }], badges: ['Contestant', 'Div. 2', 'Div. 3'] },
 ];
 
@@ -508,7 +508,7 @@ const certifications = [
 const achievements = [
   { text: 'Solved 130+ problems on LeetCode across DSA, Algorithms & Dynamic Programming', icon: '🏆', color: '#FFA116' },
   { text: 'Codeforces rating ~1300 with consistent participation in rated competitive programming contests', icon: '📊', color: '#1F8ACB' },
-  { text: 'CodeChef 3★ rated with active contest participation and steady rating growth', icon: '⭐', color: '#ECCA7E' },
+  { text: 'CodeChef 5★ rated with active contest participation and steady rating growth', icon: '⭐', color: '#ECCA7E' },
   { text: 'Awarded CodeChef Gold Streak Badge for maintaining a 50-day coding streak', icon: '🔥', color: '#FFD700' },
   { text: 'Achieved ~93% accuracy in a research-based gait analysis system using a hybrid AI approach', icon: '🤖', color: '#a855f7' },
   { text: 'Engaged in Bug Bounty hunting and independent Cybersecurity research & exploration', icon: '🛡️', color: '#22c55e' },
