@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoIQ Arena — India's Smartest Car Platform</title>
+  <meta name="description" content="Compare, explore and decide your next car with AI-powered insights. AutoIQ Arena — India's smartest car intelligence platform." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════════
+       DESIGN TOKENS
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --bg:          #070D1A;
+      --surface:     #0D1526;
+      --surface2:    #111f3a;
+      --border:      #1a3050;
+      --accent:      #00D4FF;
+      --accent2:     #0066FF;
+      --warm:        #FF6B35;
+      --gold:        #FFD700;
+      --success:     #00E676;
+      --danger:      #FF3B3B;
+      --text:        #EFF4FF;
+      --text-muted:  #7B94C4;
+      --text-dim:    #3d5070;
+      --nav-h:       68px;
+      --radius:      16px;
+      --radius-lg:   24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse at 15% 10%, rgba(0,212,255,0.055) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 90%, rgba(255,107,53,0.04) 0%, transparent 50%);
+    }
+
+    ::selection { background: rgba(0,212,255,0.25); color: #fff; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    img { display: block; max-width: 100%; }
+    a { color: var(--accent); text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    /* ═══════════════════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════════════════ */
+    .wrapper { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+    .flex { display: flex; align-items: center; }
+    .grid { display: grid; }
+    .mono { font-family: 'Roboto Mono', monospace; }
+
+    .glass {
+      background: linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.018) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, var(--accent) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s linear infinite;
+    }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 99px;
+      background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2);
+      color: var(--accent); font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       KEYFRAMES
+    ═══════════════════════════════════════════════════ */
+    @keyframes shimmer   { 0%{background-position:200% center} 100%{background-position:-200% center} }
+    @keyframes fadeUp    { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
+    @keyframes slideUp   { from{transform:translateY(100%);opacity:0} to{transform:none;opacity:1} }
+    @keyframes slideDown { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
+    @keyframes pulse     { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.85)} }
+    @keyframes ripple    { from{transform:scale(0);opacity:.6} to{transform:scale(4);opacity:0} }
+    @keyframes skeletonSweep { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    @keyframes float     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    @keyframes glow      { 0%,100%{box-shadow:0 0 16px rgba(0,212,255,.3)} 50%{box-shadow:0 0 40px rgba(0,212,255,.7),0 0 80px rgba(0,212,255,.2)} }
+    @keyframes spinSlow  { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+    @keyframes stampIn   { 0%{transform:scale(1.6) rotate(-8deg);opacity:0} 60%{transform:scale(.9) rotate(3deg);opacity:1} 100%{transform:scale(1) rotate(0);opacity:1} }
+    @keyframes toastIn   { from{transform:translateY(20px) scale(.95);opacity:0} to{transform:none;opacity:1} }
+
+    .animate-fadeUp  { animation: fadeUp .5s cubic-bezier(.25,.46,.45,.94) both; }
+    .animate-float   { animation: float 4s ease-in-out infinite; }
+    .animate-glow    { animation: glow 2.5s ease-in-out infinite; }
+    .animate-spin-slow {animation: spinSlow 14s linear infinite; }
+
+    /* ═══════════════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      height: var(--nav-h);
+      backdrop-filter: blur(16px);
+      background: rgba(7,13,26,.85);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      animation: slideDown .5s ease-out both;
+    }
+    nav .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; max-width: 1280px; margin: 0 auto; padding: 0 20px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; box-shadow: 0 0 20px rgba(0,212,255,.35);
+    }
+    .logo-text { font-size: 15px; font-weight: 900; letter-spacing: .06em; color: var(--accent); text-transform: uppercase; }
+    .logo-sub  { font-size: 9px; color: var(--text-muted); display: block; letter-spacing: .08em; margin-top: -1px; }
+
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-link {
+      padding: 6px 14px; border-radius: 10px; font-size: 13px; font-weight: 600;
+      color: var(--text-muted); transition: color .2s, background .2s;
+      position: relative; overflow: hidden;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-link.active { color: var(--accent); }
+    .nav-link.active::after {
+      content: ''; position: absolute; bottom: 2px; left: 14px; right: 14px; height: 2px;
+      background: var(--accent); border-radius: 2px;
+    }
+    .nav-actions { display: flex; gap: 10px; align-items: center; }
+
+    /* AI dot */
+    .ai-dot { position: relative; width: 8px; height: 8px; }
+    .ai-dot::before, .ai-dot::after {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+    }
+    .ai-dot::before { background: var(--success); }
+    .ai-dot::after  { background: rgba(0,230,118,.5); animation: pulse 2s ease-in-out infinite; transform-origin: center; }
+
+    /* ═══════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════ */
+    .hero {
+      padding-top: calc(var(--nav-h) + 60px);
+      padding-bottom: 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+    }
+    .hero-orb-1 { width: 600px; height: 600px; top: -200px; left: -150px; background: radial-gradient(circle, rgba(0,212,255,.08) 0%, transparent 70%); }
+    .hero-orb-2 { width: 500px; height: 500px; bottom: -100px; right: -100px; background: radial-gradient(circle, rgba(255,107,53,.06) 0%, transparent 70%); }
+    .hero-ring {
+      position: absolute; border-radius: 50%; border: 1px solid rgba(0,212,255,.06);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+
+    .badge-72h {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 18px; border-radius: 99px;
+      background: rgba(255,215,0,.08); border: 1px solid rgba(255,215,0,.3);
+      color: var(--gold); font-size: 12px; font-weight: 800;
+      animation: fadeUp .4s ease both, glow 3s ease-in-out infinite;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 5.5rem);
+      font-weight: 900; line-height: 1.08; letter-spacing: -.02em;
+      animation: fadeUp .55s .1s cubic-bezier(.25,.46,.45,.94) both;
+    }
+    .hero p.sub {
+      margin: 20px auto 36px; max-width: 560px;
+      font-size: clamp(15px,2vw,18px); color: var(--text-muted); line-height: 1.7;
+      animation: fadeUp .55s .2s cubic-bezier(.25,.46,.45,.94) both;
+    }
+    .hero-actions {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp .55s .3s cubic-bezier(.25,.46,.45,.94) both;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: 12px; font-weight: 700; font-size: 14px;
+      border: 2px solid transparent; transition: all .2s ease; letter-spacing: .01em;
+      position: relative; overflow: hidden; user-select: none;
+    }
+    .btn::after {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; opacity: 0;
+      background: rgba(255,255,255,.12); transition: opacity .2s;
+    }
+    .btn:hover::after { opacity: 1; }
+    .btn:active { transform: scale(.97); }
+
+    .btn-primary {
+      background: var(--accent); color: #050e1a;
+      box-shadow: 0 0 24px rgba(0,212,255,.4);
+    }
+    .btn-primary:hover { box-shadow: 0 0 40px rgba(0,212,255,.7); transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.06); color: var(--text);
+      border-color: rgba(255,255,255,.12);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .btn-warm {
+      background: linear-gradient(135deg,#FF6B35,#FF3B3B); color: #fff;
+      box-shadow: 0 0 24px rgba(255,107,53,.4);
+    }
+    .btn-warm:hover { box-shadow: 0 0 40px rgba(255,107,53,.7); transform: translateY(-2px); }
+
+    /* ═══════════════════════════════════════════════════
+       SEARCH BAR
+    ═══════════════════════════════════════════════════ */
+    .search-wrap {
+      max-width: 560px; margin: 36px auto 0;
+      animation: fadeUp .55s .35s cubic-bezier(.25,.46,.45,.94) both;
+      position: relative;
+    }
+    .search-bar {
+      width: 100%; padding: 14px 50px 14px 48px; border-radius: 14px;
+      background: var(--surface); border: 1.5px solid var(--border);
+      color: var(--text); font-size: 14px; font-family: inherit;
+      transition: border-color .25s, box-shadow .25s;
+      outline: none;
+    }
+    .search-bar::placeholder { color: var(--text-dim); }
+    .search-bar:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,255,.15), 0 0 20px rgba(0,212,255,.1);
+    }
+    .search-icon {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); font-size: 18px; pointer-events: none; transition: color .25s;
+    }
+    .search-bar:focus ~ .search-icon, .search-wrap:focus-within .search-icon { color: var(--accent); }
+    .search-clear {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 18px; transition: color .2s;
+      display: none;
+    }
+    .search-clear.visible { display: block; }
+    .search-clear:hover { color: var(--text); }
+
+    /* ═══════════════════════════════════════════════════
+       STAT COUNTERS
+    ═══════════════════════════════════════════════════ */
+    .stats {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 16px;
+      max-width: 900px; margin: 60px auto;
+      animation: fadeUp .55s .4s both;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 16px; text-align: center;
+      position: relative; overflow: hidden;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--c,var(--accent)), transparent);
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--c,var(--accent)); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
+    .stat-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+    .stat-num { font-size: 2.6rem; font-weight: 900; font-family: 'Roboto Mono'; color: var(--c,var(--accent)); line-height: 1; }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 6px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+
+    /* ═══════════════════════════════════════════════════
+       FILTER CHIPS
+    ═══════════════════════════════════════════════════ */
+    .filters {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;
+      animation: fadeUp .4s .1s both;
+    }
+    .chip {
+      padding: 7px 16px; border-radius: 99px; font-size: 13px; font-weight: 700;
+      background: var(--surface); border: 1.5px solid var(--border);
+      color: var(--text-muted); cursor: pointer; transition: all .22s ease;
+      position: relative; overflow: hidden; user-select: none;
+    }
+    .chip::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      width: 0; height: 0; border-radius: 50%;
+      background: rgba(0,212,255,.25); transform: translate(-50%,-50%);
+      transition: width .5s, height .5s, opacity .5s; opacity: 0;
+    }
+    .chip:active::after { width: 200px; height: 200px; opacity: 0; transition: none; }
+    .chip:hover { border-color: rgba(0,212,255,.4); color: var(--text); }
+    .chip.active {
+      background: rgba(0,212,255,.12); border-color: rgba(0,212,255,.6);
+      color: var(--accent);
+      box-shadow: 0 0 16px rgba(0,212,255,.15);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CAR GRID
+    ═══════════════════════════════════════════════════ */
+    .section { padding: 40px 0 80px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+    .section-title { font-size: 1.5rem; font-weight: 900; }
+
+    .car-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+      gap: 20px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CAR CARD
+    ═══════════════════════════════════════════════════ */
+    .car-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: transform .28s cubic-bezier(.25,.46,.45,.94),
+                  border-color .28s, box-shadow .28s;
+      position: relative; cursor: pointer;
+      opacity: 0; /* starts hidden, JS fades in */
+    }
+    .car-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: rgba(0,212,255,.45);
+      box-shadow: 0 16px 48px rgba(0,0,0,.4), 0 0 0 1px rgba(0,212,255,.15);
+    }
+    .car-card.in-compare {
+      border-color: rgba(0,212,255,.8);
+      box-shadow: 0 0 0 2px rgba(0,212,255,.3), 0 0 30px rgba(0,212,255,.15);
+    }
+    .car-card .img-wrap {
+      height: 190px; overflow: hidden; position: relative; background: var(--surface2);
+    }
+    .car-card .img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+    }
+    .car-card:hover .img-wrap img { transform: scale(1.08); }
+
+    /* EV badge */
+    .badge-ev {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(0,230,118,.15); border: 1px solid rgba(0,230,118,.4);
+      color: var(--success); font-size: 10px; font-weight: 800;
+      padding: 3px 10px; border-radius: 99px; letter-spacing: .08em;
+      display: flex; align-items: center; gap: 4px; backdrop-filter: blur(6px);
+    }
+    .badge-ev::before { content: '⚡'; font-size: 11px; }
+
+    /* Popular badge */
+    .badge-popular {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(255,215,0,.12); border: 1px solid rgba(255,215,0,.4);
+      color: var(--gold); font-size: 10px; font-weight: 800;
+      padding: 3px 10px; border-radius: 99px; letter-spacing: .06em;
+      backdrop-filter: blur(6px);
+    }
+
+    /* compare add btn on image */
+    .compare-btn {
+      position: absolute; bottom: 10px; right: 10px;
+      width: 34px; height: 34px; border-radius: 99px;
+      background: rgba(0,212,255,.15); border: 1.5px solid rgba(0,212,255,.5);
+      color: var(--accent); font-size: 18px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; backdrop-filter: blur(6px);
+      opacity: 0; transform: scale(.8);
+    }
+    .car-card:hover .compare-btn { opacity: 1; transform: scale(1); }
+    .compare-btn:hover { background: var(--accent); color: #050e1a; box-shadow: 0 0 16px rgba(0,212,255,.5); }
+    .compare-btn.added { background: var(--accent); color: #050e1a; opacity: 1; transform: scale(1); }
+
+    .car-body { padding: 16px; }
+    .car-brand { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+    .car-name  { font-size: 16px; font-weight: 900; margin: 3px 0 2px; }
+    .car-variant { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+
+    .car-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .car-stat-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 9px; border-radius: 8px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      font-size: 11px; font-weight: 600; color: var(--text-muted); font-family: 'Roboto Mono';
+    }
+    .car-stat-chip span { font-size: 13px; }
+
+    .car-footer { display: flex; align-items: center; justify-content: space-between; }
+    .car-price { font-size: 18px; font-weight: 900; color: var(--text); font-family: 'Roboto Mono'; }
+    .car-rating { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 700; color: #FFD700; }
+
+    /* ═══════════════════════════════════════════════════
+       COMPARE STICKY BAR
+    ═══════════════════════════════════════════════════ */
+    .compare-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 800;
+      background: rgba(11,22,40,.96); backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(0,212,255,.2);
+      padding: 14px 20px;
+      transform: translateY(100%);
+      transition: transform .35s cubic-bezier(.25,.46,.45,.94);
+    }
+    .compare-bar.visible { transform: none; }
+
+    .compare-bar-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .compare-slots { display: flex; gap: 12px; flex: 1; flex-wrap: wrap; align-items: center; }
+    .compare-slot {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 12px;
+      border: 1.5px dashed rgba(255,255,255,.15);
+      min-width: 180px; transition: all .25s;
+    }
+    .compare-slot.filled { border-color: rgba(0,212,255,.4); background: rgba(0,212,255,.05); }
+    .compare-slot img { width: 52px; height: 36px; object-fit: cover; border-radius: 8px; }
+    .compare-slot-info { flex: 1; min-width: 0; }
+    .compare-slot-info .name { font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .compare-slot-info .price { font-size: 11px; color: var(--accent); font-family: 'Roboto Mono'; }
+    .compare-slot-empty { font-size: 12px; color: var(--text-dim); font-style: italic; padding: 0 4px; }
+    .slot-remove {
+      width: 20px; height: 20px; border-radius: 99px; background: rgba(255,59,59,.15);
+      border: 1px solid rgba(255,59,59,.3); color: var(--danger);
+      display: flex; align-items: center; justify-content: center; font-size: 12px;
+      transition: all .2s; flex-shrink: 0;
+    }
+    .slot-remove:hover { background: var(--danger); color: #fff; }
+
+    .compare-bar-actions { display: flex; gap: 10px; flex-shrink: 0; }
+
+    /* ═══════════════════════════════════════════════════
+       AI PROMPT BAR
+    ═══════════════════════════════════════════════════ */
+    .ai-bar-wrap {
+      max-width: 900px; margin: 0 auto 60px;
+      animation: fadeUp .5s .5s both;
+    }
+    .ai-bar {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px;
+      background: var(--surface); border: 1.5px solid rgba(0,212,255,.25);
+      border-radius: var(--radius-lg); cursor: pointer;
+      transition: border-color .25s, box-shadow .25s;
+      position: relative;
+    }
+    .ai-bar:hover {
+      border-color: rgba(0,212,255,.6);
+      box-shadow: 0 0 30px rgba(0,212,255,.12);
+    }
+    .ai-bar-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg,#7C3AED,#2563EB);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      flex-shrink: 0;
+    }
+    .ai-bar-text { flex: 1; }
+    .ai-bar-label { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+    .ai-bar-placeholder { font-size: 14px; color: var(--text-muted); }
+    .ai-pulse { position: relative; width: 8px; height: 8px; flex-shrink: 0; }
+    .ai-pulse i, .ai-pulse::before {
+      position: absolute; inset: 0; border-radius: 50%; background: var(--success);
+    }
+    .ai-pulse::before { content: ''; animation: pulse 2s ease-in-out infinite; background: rgba(0,230,118,.5); }
+    .ai-bar-cta {
+      padding: 8px 18px; border-radius: 10px;
+      background: linear-gradient(135deg,#7C3AED,#2563EB);
+      color: #fff; font-size: 13px; font-weight: 700;
+      white-space: nowrap; flex-shrink: 0;
+      transition: all .2s;
+    }
+    .ai-bar:hover .ai-bar-cta { box-shadow: 0 0 20px rgba(124,58,237,.5); transform: scale(1.03); }
+
+    /* AI Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,.75); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface); border: 1px solid rgba(0,212,255,.2);
+      border-radius: var(--radius-lg); padding: 32px; max-width: 540px; width: 100%;
+      transform: translateY(20px) scale(.96); transition: transform .3s, opacity .3s;
+    }
+    .modal-overlay.open .modal { transform: none; }
+    .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .modal-head h3 { font-size: 1.2rem; font-weight: 900; }
+    .modal-close { width: 32px; height: 32px; border-radius: 99px; background: rgba(255,255,255,.07); color: var(--text-muted); font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+    .modal-close:hover { background: rgba(255,59,59,.15); color: var(--danger); }
+    .modal-input {
+      width: 100%; padding: 13px 16px; border-radius: 12px;
+      background: rgba(255,255,255,.04); border: 1.5px solid var(--border);
+      color: var(--text); font-size: 14px; font-family: inherit;
+      resize: none; outline: none; margin-bottom: 14px;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .modal-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,.12); }
+    .quick-prompts { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .qp {
+      padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 600;
+      background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.3);
+      color: #a78bfa; cursor: pointer; transition: all .2s;
+    }
+    .qp:hover { background: rgba(124,58,237,.25); }
+    .ai-response {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px; padding: 16px; font-size: 14px; color: var(--text-muted);
+      line-height: 1.7; min-height: 80px; display: none;
+    }
+    .ai-response.show { display: block; animation: fadeUp .3s both; }
+    .ai-typing { display: flex; gap: 4px; align-items: center; padding: 10px 0; }
+    .ai-typing span { width: 6px; height: 6px; border-radius: 99px; background: var(--accent); animation: pulse .9s ease-in-out infinite; }
+    .ai-typing span:nth-child(2) { animation-delay: .2s; }
+    .ai-typing span:nth-child(3) { animation-delay: .4s; }
+
+    /* ═══════════════════════════════════════════════════
+       TOAST
+    ═══════════════════════════════════════════════════ */
+    #toast {
+      position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+      background: var(--surface2); border: 1px solid rgba(0,212,255,.3);
+      padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 600;
+      z-index: 9000; white-space: nowrap;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s;
+    }
+    #toast.show { animation: toastIn .3s both; opacity: 1; }
+
+    /* ═══════════════════════════════════════════════════
+       RIPPLE
+    ═══════════════════════════════════════════════════ */
+    .ripple-container { position: relative; }
+    .ripple-wave {
+      position: absolute; border-radius: 50%;
+      background: rgba(0,212,255,.35); pointer-events: none;
+      animation: ripple .6s ease-out forwards;
+      transform: scale(0);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .55s cubic-bezier(.25,.46,.45,.94), transform .55s cubic-bezier(.25,.46,.45,.94);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ═══════════════════════════════════════════════════
+       FEATURE HIGHLIGHTS
+    ═══════════════════════════════════════════════════ */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 18px;
+      margin-bottom: 80px;
+    }
+    .feat-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 24px;
+      transition: transform .28s, border-color .28s, box-shadow .28s;
+      position: relative; overflow: hidden;
+    }
+    .feat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--c,var(--accent)), transparent);
+    }
+    .feat-card:hover { transform: translateY(-5px); border-color: var(--c,var(--accent)); box-shadow: 0 14px 48px rgba(0,0,0,.35); }
+    .feat-icon {
+      width: 52px; height: 52px; border-radius: 14px; margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--ca,rgba(0,212,255,.2)), var(--cb,rgba(0,102,255,.2)));
+      display: flex; align-items: center; justify-content: center; font-size: 26px;
+    }
+    .feat-title { font-size: 16px; font-weight: 900; margin-bottom: 8px; }
+    .feat-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ═══════════════════════════════════════════════════
+       HORIZONTAL SCROLL MARQUEE (tech stack)
+    ═══════════════════════════════════════════════════ */
+    .marquee-wrap { overflow: hidden; padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 0 -20px; }
+    .marquee { display: flex; gap: 24px; width: max-content; animation: marqueeScroll 20s linear infinite; }
+    .marquee-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      font-size: 14px; font-weight: 700; white-space: nowrap;
+    }
+    @keyframes marqueeScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ═══════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border); padding: 40px 20px;
+      text-align: center; color: var(--text-muted); font-size: 13px;
+    }
+    footer .footer-logo { font-size: 20px; font-weight: 900; color: var(--accent); margin-bottom: 8px; letter-spacing: .06em; }
+
+    /* ═══════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════ */
+    @media (max-width: 700px) {
+      .stats { grid-template-columns: repeat(2,1fr); }
+      .nav-links { display: none; }
+      .compare-slot { min-width: 140px; }
+    }
+    @media (max-width: 480px) {
+      .stats { grid-template-columns: repeat(2,1fr); gap: 10px; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🏎️</div>
+      <div>
+        <span class="logo-text">AutoIQ Arena</span>
+        <span class="logo-sub">India's Premier Car Intelligence Platform</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#cars"     class="nav-link active">Cars</a>
+      <a href="#compare"  class="nav-link">Compare</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#ai"       class="nav-link">AI Advisor</a>
+    </div>
+    <div class="nav-actions">
+      <div class="flex" style="gap:6px;padding:6px 12px;border-radius:99px;border:1px solid rgba(0,230,118,.3);background:rgba(0,230,118,.06)">
+        <div class="ai-dot"></div>
+        <span style="font-size:12px;font-weight:700;color:var(--success)">AI Online</span>
+      </div>
+      <button class="btn btn-primary ripple-container" onclick="openAI()" style="padding:10px 18px;font-size:13px">
+        🤖 Ask AI
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-ring" style="width:700px;height:700px;animation:spinSlow 20s linear infinite;"></div>
+  <div class="hero-ring" style="width:1000px;height:1000px;animation:spinSlow 30s linear infinite reverse;"></div>
+
+  <div class="wrapper">
+    <div class="badge-72h">🏆 Built in 72 Hours · IQ Hackathon 2024</div>
+
+    <h1>
+      India's Smartest<br>
+      <span class="gradient-text">Car Intelligence</span><br>
+      Platform
+    </h1>
+
+    <p class="sub">
+      Compare specs, simulate 0-100 races, plan finances, explore EVs,
+      and get AI-powered car recommendations — all in one arena.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn btn-primary ripple-container" onclick="scrollTo({top:document.getElementById('cars').offsetTop-80,behavior:'smooth'})">
+        🚗 Explore Cars
+      </button>
+      <button class="btn btn-secondary ripple-container" onclick="openAI()">
+        🤖 Ask AI Advisor
+      </button>
+      <button class="btn btn-warm ripple-container" onclick="scrollTo({top:document.getElementById('features').offsetTop-80,behavior:'smooth'})">
+        ⚡ See Features
+      </button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input id="searchInput" class="search-bar" placeholder="Search by brand, model, segment…" oninput="handleSearch(this)" autocomplete="off" />
+      <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     STATS
+═══════════════════════════════════════════════════ -->
+<div class="wrapper">
+  <div class="stats" id="statsSection">
+    <div class="stat-card" style="--c:#00D4FF">
+      <span class="stat-icon">🚗</span>
+      <div class="stat-num" id="stat-cars">0</div>
+      <div class="stat-label">Cars in Database</div>
+    </div>
+    <div class="stat-card" style="--c:#FFB300">
+      <span class="stat-icon">✨</span>
+      <div class="stat-num" id="stat-features">0</div>
+      <div class="stat-label">Features Built</div>
+    </div>
+    <div class="stat-card" style="--c:#00E676">
+      <span class="stat-icon">⚡</span>
+      <div class="stat-num" id="stat-ev">0</div>
+      <div class="stat-label">EVs Profiled</div>
+    </div>
+    <div class="stat-card" style="--c:#FF6B35">
+      <span class="stat-icon">🏅</span>
+      <div class="stat-num" id="stat-awards">0</div>
+      <div class="stat-label">Awards Generated</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     AI BAR
+═══════════════════════════════════════════════════ -->
+<div class="wrapper" id="ai">
+  <div class="ai-bar-wrap">
+    <div class="ai-bar ripple-container" onclick="openAI()">
+      <div class="ai-bar-icon">🤖</div>
+      <div class="ai-bar-text">
+        <div class="ai-bar-label">
+          <div class="ai-pulse"></div>
+          AI Advisor
+        </div>
+        <div class="ai-bar-placeholder">Ask me: "Best EV under ₹20L with 400km range" or "Compare Swift vs i20"…</div>
+      </div>
+      <div class="ai-bar-cta">Ask AI →</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     CAR DATABASE
+═══════════════════════════════════════════════════ -->
+<section class="section" id="cars">
+  <div class="wrapper">
+    <div class="section-head">
+      <h2 class="section-title">🏎️ Car <span class="gradient-text">Database</span></h2>
+      <span class="tag" id="carCount">20 Cars</span>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="filters" id="filterChips">
+      <div class="chip active" data-filter="all"     onclick="setFilter('all',this)">All Cars</div>
+      <div class="chip"        data-filter="hatchback" onclick="setFilter('hatchback',this)">Hatchback</div>
+      <div class="chip"        data-filter="sedan"     onclick="setFilter('sedan',this)">Sedan</div>
+      <div class="chip"        data-filter="suv"       onclick="setFilter('suv',this)">SUV</div>
+      <div class="chip"        data-filter="luxury"    onclick="setFilter('luxury',this)">Luxury</div>
+      <div class="chip"        data-filter="ev"        onclick="setFilter('ev',this)">⚡ EVs Only</div>
+      <div class="chip"        data-filter="petrol"    onclick="setFilter('petrol',this)">Petrol</div>
+      <div class="chip"        data-filter="diesel"    onclick="setFilter('diesel',this)">Diesel</div>
+    </div>
+
+    <div class="car-grid" id="carGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FEATURE HIGHLIGHT
+═══════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="wrapper">
+    <div class="section-head">
+      <div>
+        <span class="tag" style="margin-bottom:12px;display:inline-flex">⚙️ Capabilities</span>
+        <h2 class="section-title reveal">Everything in one <span class="gradient-text">Arena</span></h2>
+      </div>
+    </div>
+
+    <div class="features-grid reveal">
+      <div class="feat-card" style="--c:#7C3AED;--ca:rgba(124,58,237,.2);--cb:rgba(37,99,235,.2)">
+        <div class="feat-icon">🤖</div>
+        <div class="feat-title">AI-Powered Advisor</div>
+        <div class="feat-desc">Claude AI recommends cars based on lifestyle, budget, and priorities with conversational follow-ups and deep data reasoning.</div>
+      </div>
+      <div class="feat-card" style="--c:#00D4FF;--ca:rgba(0,212,255,.2);--cb:rgba(0,102,255,.2)">
+        <div class="feat-icon">⚖️</div>
+        <div class="feat-title">Side-by-Side Compare</div>
+        <div class="feat-desc">Compare up to 4 cars across 30+ spec categories with animated diff highlighting and automatic winner badges.</div>
+      </div>
+      <div class="feat-card" style="--c:#FFB300;--ca:rgba(255,179,0,.15);--cb:rgba(255,107,53,.15)">
+        <div class="feat-icon">💰</div>
+        <div class="feat-title">Financial Dashboard</div>
+        <div class="feat-desc">EMI calculator, 5-year cost race chart, resale timeline, budget finder — the complete car finance command centre.</div>
+      </div>
+      <div class="feat-card" style="--c:#00E676;--ca:rgba(0,230,118,.15);--cb:rgba(0,212,255,.1)">
+        <div class="feat-icon">⚡</div>
+        <div class="feat-title">EV Hub & Range Calc</div>
+        <div class="feat-desc">Range calculator, EV vs Petrol 5-year savings, carbon score comparison, and a mock charging station map.</div>
+      </div>
+      <div class="feat-card" style="--c:#FF3B3B;--ca:rgba(255,59,59,.15);--cb:rgba(255,107,53,.1)">
+        <div class="feat-icon">🏁</div>
+        <div class="feat-title">Drag Race Simulator</div>
+        <div class="feat-desc">Physics-based 0-100 km/h race with real-time SVG speedometer, dual-lane animation, and lap results summary.</div>
+      </div>
+      <div class="feat-card" style="--c:#FFD700;--ca:rgba(255,215,0,.15);--cb:rgba(255,179,0,.1)">
+        <div class="feat-icon">🏆</div>
+        <div class="feat-title">Auto Awards Engine</div>
+        <div class="feat-desc">9 dynamic awards auto-computed live from data: Best Value, EV of Year, Safety Champion, Fastest 0-100, and more.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     TECH MARQUEE
+═══════════════════════════════════════════════════ -->
+<div class="marquee-wrap reveal">
+  <div class="marquee" id="marquee"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-logo">AutoIQ Arena 🏎️</div>
+  <p>Built in 72 hours for IQ Hackathon 2024 · React · TypeScript · Vite · Tailwind · Framer Motion · Claude AI</p>
+  <p style="margin-top:8px;color:var(--text-dim)">© 2024 AutoIQ Arena. Made with ❤️ for India's car enthusiasts.</p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     COMPARE BAR
+═══════════════════════════════════════════════════ -->
+<div class="compare-bar" id="compareBar">
+  <div class="compare-bar-inner">
+    <div class="compare-slots" id="compareSlots"></div>
+    <div class="compare-bar-actions">
+      <button class="btn btn-secondary ripple-container" style="padding:10px 16px;font-size:13px" onclick="clearCompare()">Clear</button>
+      <button class="btn btn-primary ripple-container" style="padding:10px 18px;font-size:13px" onclick="doCompare()">⚖️ Compare Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     AI MODAL
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="aiModal" onclick="closeIfOverlay(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="flex" style="gap:10px">
+        <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#2563EB);display:flex;align-items:center;justify-content:center;font-size:19px">🤖</div>
+        <div>
+          <h3 style="font-size:16px;font-weight:900">AI Car Advisor</h3>
+          <div class="flex" style="gap:5px;margin-top:2px">
+            <div class="ai-pulse" style="width:7px;height:7px"></div>
+            <span style="font-size:11px;color:var(--success);font-weight:700">Online · Powered by Claude</span>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeAI()">✕</button>
+    </div>
+
+    <div class="quick-prompts">
+      <div class="qp" onclick="setPrompt(this)">Best EV under ₹20L?</div>
+      <div class="qp" onclick="setPrompt(this)">Swift vs i20 — which to buy?</div>
+      <div class="qp" onclick="setPrompt(this)">Best family SUV in ₹15L budget?</div>
+      <div class="qp" onclick="setPrompt(this)">Compare Creta vs Seltos specs</div>
+    </div>
+
+    <textarea class="modal-input" id="aiPrompt" rows="3" placeholder="Ask anything about cars, budgets, specs, or comparisons…"></textarea>
+
+    <div style="display:flex;gap:10px;margin-bottom:18px">
+      <button class="btn btn-primary ripple-container" style="flex:1;padding:11px" onclick="submitAI()">Send →</button>
+      <button class="btn btn-secondary ripple-container" style="padding:11px 16px" onclick="clearPrompt()">Clear</button>
+    </div>
+
+    <div class="ai-response" id="aiResponse"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     TOAST
+═══════════════════════════════════════════════════ -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════ -->
+<script>
+// ─── Car Dataset ──────────────────────────────────────────────────────────
+const CARS = [
+  { id:'swift',    brand:'Maruti Suzuki', model:'Swift',        variant:'ZXi+ AMT',         price:8.29,  mileage:'24.8 kmpl', power:'81 bhp',  segment:'hatchback', fuel:'petrol', rating:4.1, reviews:3204, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/swift-exterior-right-front-three-quarter-64.jpeg',  popular:true  },
+  { id:'i20',      brand:'Hyundai',       model:'i20',          variant:'Asta (O) DCT',     price:11.48, mileage:'20.35 kmpl',power:'120 bhp', segment:'hatchback', fuel:'petrol', rating:4.2, reviews:2891, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/i20-exterior-right-front-three-quarter-2.jpeg'          },
+  { id:'baleno',   brand:'Maruti',        model:'Baleno',       variant:'Alpha',             price:9.32,  mileage:'22.35 kmpl',power:'90 bhp',  segment:'hatchback', fuel:'petrol', rating:4.0, reviews:2156, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/54399/baleno-exterior-right-front-three-quarter-3.jpeg'        },
+  { id:'altroz',   brand:'Tata',          model:'Altroz',       variant:'XZ+ Dark',          price:9.81,  mileage:'21.0 kmpl', power:'100 bhp', segment:'hatchback', fuel:'petrol', rating:3.9, reviews:1432, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/altroz-exterior-right-front-three-quarter-2.jpeg'        },
+  { id:'city',     brand:'Honda',         model:'City',         variant:'ZX CVT',            price:15.79, mileage:'18.4 kmpl', power:'121 bhp', segment:'sedan',     fuel:'petrol', rating:4.3, reviews:3102, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/134287/city-exterior-right-front-three-quarter-20.jpeg'         },
+  { id:'verna',    brand:'Hyundai',       model:'Verna',        variant:'SX(O) 1.5T-GDi',   price:17.29, mileage:'20.6 kmpl', power:'160 bhp', segment:'sedan',     fuel:'petrol', rating:4.4, reviews:2176, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/verna-exterior-right-front-three-quarter-4.jpeg'          },
+  { id:'ciaz',     brand:'Maruti',        model:'Ciaz',         variant:'Alpha',             price:11.5,  mileage:'20.65 kmpl',power:'103 bhp', segment:'sedan',     fuel:'petrol', rating:3.8, reviews:1834, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/94477/ciaz-exterior-right-front-three-quarter-7.jpeg'           },
+  { id:'creta',    brand:'Hyundai',       model:'Creta',        variant:'SX(O) DCT',         price:19.20, mileage:'16.8 kmpl', power:'140 bhp', segment:'suv',       fuel:'petrol', rating:4.4, reviews:5431, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/106815/creta-exterior-right-front-three-quarter-6.jpeg',  popular:true  },
+  { id:'seltos',   brand:'Kia',           model:'Seltos',       variant:'HTX Plus DCT',      price:17.65, mileage:'16.5 kmpl', power:'138 bhp', segment:'suv',       fuel:'petrol', rating:4.4, reviews:3987, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/150343/seltos-exterior-right-front-three-quarter-3.jpeg'       },
+  { id:'xuv700',   brand:'Mahindra',      model:'XUV700',       variant:'AX7 AWD AT',        price:25.99, mileage:'15.1 kmpl', power:'200 bhp', segment:'suv',       fuel:'petrol', rating:4.5, reviews:4312, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/42355/xuv700-exterior-right-front-three-quarter.jpeg',  popular:true  },
+  { id:'nexon',    brand:'Tata',          model:'Nexon',        variant:'Creative+ AMT',     price:10.5,  mileage:'21.5 kmpl', power:'120 bhp', segment:'suv',       fuel:'petrol', rating:4.0, reviews:3654, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/41406/nexon-exterior-right-front-three-quarter-17.jpeg'        },
+  { id:'brezza',   brand:'Maruti',        model:'Grand Vitara', variant:'Zeta+',             price:14.5,  mileage:'19.38 kmpl',power:'101 bhp', segment:'suv',       fuel:'petrol', rating:4.1, reviews:2876, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/154047/grand-vitara-exterior-right-front-three-quarter-2.jpeg'   },
+  { id:'fortuner', brand:'Toyota',        model:'Fortuner',     variant:'4x2 AT',            price:38.99, mileage:'14.2 kmpl', power:'201 bhp', segment:'suv',       fuel:'diesel', rating:4.5, reviews:3891, img:'https://imgd.aeplolgd.com/664x374/n/cw/ec/44686/fortuner-exterior-right-front-three-quarter-3.jpeg'        },
+  { id:'nexon-ev', brand:'Tata',          model:'Nexon EV',     variant:'Max LR AWD',        price:19.94, mileage:'453 km',    power:'143 bhp', segment:'suv',       fuel:'electric',rating:4.4,reviews:3287, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/nexon-ev-exterior-right-front-three-quarter-10.jpeg', isEV:true,popular:true },
+  { id:'mg-zs-ev', brand:'MG',            model:'ZS EV',        variant:'Excite Pro',        price:24.18, mileage:'461 km',    power:'176 bhp', segment:'suv',       fuel:'electric',rating:4.1,reviews:1654, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130557/zs-ev-exterior-right-front-three-quarter-6.jpeg', isEV:true        },
+  { id:'atto3',    brand:'BYD',           model:'Atto 3',       variant:'Standard',          price:33.99, mileage:'521 km',    power:'204 bhp', segment:'suv',       fuel:'electric',rating:4.2,reviews:987,  img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130562/atto-3-exterior-right-front-three-quarter-6.jpeg', isEV:true        },
+  { id:'x1',       brand:'BMW',           model:'X1',           variant:'sDrive18i xLine',   price:54.90, mileage:'16.5 kmpl', power:'136 bhp', segment:'luxury',    fuel:'petrol', rating:4.5, reviews:2109, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/51435/x1-exterior-right-front-three-quarter-70.jpeg'         },
+  { id:'gla',      brand:'Mercedes-Benz', model:'GLA',          variant:'200d Progressive',  price:59.90, mileage:'19.2 kmpl', power:'150 bhp', segment:'luxury',    fuel:'diesel', rating:4.6, reviews:1743, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/106815/gla-exterior-right-front-three-quarter-12.jpeg'         },
+  { id:'xuv400',   brand:'Mahindra',      model:'XUV400',       variant:'EL Pro',            price:15.99, mileage:'456 km',    power:'150 bhp', segment:'suv',       fuel:'electric',rating:4.1,reviews:1102, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/xuv400-ev-exterior-right-front-three-quarter-2.jpeg',isEV:true  },
+  { id:'thar',     brand:'Mahindra',      model:'Thar',         variant:'LX Hardtop AT',     price:18.99, mileage:'15.2 kmpl', power:'130 bhp', segment:'suv',       fuel:'petrol', rating:4.3, reviews:5812, img:'https://imgd.aeplcdn.com/664x374/n/cw/ec/40048/thar-exterior-right-front-three-quarter-4.jpeg', popular:true  },
+]
+
+const TECH_STACK = [
+  {icon:'⚛️',name:'React 18'},{icon:'🔷',name:'TypeScript'},{icon:'⚡',name:'Vite'},
+  {icon:'🎨',name:'Tailwind CSS'},{icon:'🎞️',name:'Framer Motion'},{icon:'📊',name:'Recharts'},
+  {icon:'🔗',name:'React Router'},{icon:'🤖',name:'Claude AI'},{icon:'✨',name:'Lucide Icons'},
+  {icon:'💾',name:'localStorage'},{icon:'🏎️',name:'AutoIQ Arena'},{icon:'🌐',name:'Vite PWA'},
+]
+
+const AI_RESPONSES = {
+  'Best EV under ₹20L?': `<strong>🔋 Top EVs under ₹20L:</strong><br><br>1. <strong>Tata Nexon EV Max LR AWD (₹19.94L)</strong> — Best pick! 453km range, AWD, 5-star NCAP, fast charging. Best range:money ratio in segment.<br><br>2. <strong>Tata XUV400 EL Pro (₹15.99L)</strong> — Budget EV with 456km ARAI range, great value.<br><br>💡 <em>Nexon EV wins on real-world range, safety, and AWD uniqueness under ₹20L.</em>`,
+  'Swift vs i20 — which to buy?': `<strong>⚖️ Swift ZXi+ vs Hyundai i20 Asta:</strong><br><br><table style="width:100%;font-size:12px;border-collapse:collapse"><tr><th style="text-align:left;padding:4px;color:var(--accent)">Spec</th><th style="padding:4px;color:var(--accent)">Swift</th><th style="padding:4px;color:var(--accent)">i20</th></tr><tr><td style="padding:4px;color:var(--text-muted)">Price</td><td style="padding:4px">₹8.29L</td><td style="padding:4px">₹11.48L</td></tr><tr><td style="padding:4px;color:var(--text-muted)">Power</td><td style="padding:4px">81 bhp</td><td style="padding:4px">120 bhp</td></tr><tr><td style="padding:4px;color:var(--text-muted)">Mileage</td><td style="padding:4px">24.8 kmpl ✓</td><td style="padding:4px">20.35 kmpl</td></tr></table><br>🏆 <strong>Swift</strong> for budget/mileage. <strong>i20</strong> for premium feel & power.`,
+  'Best family SUV in ₹15L budget?': `<strong>👨‍👩‍👧‍👦 Best Family SUVs under ₹15L:</strong><br><br>1. <strong>Tata Nexon AMT (₹10.5L)</strong> — 5-star safety, roomy cabin, value pick.<br>2. <strong>Maruti Grand Vitara Zeta+ (₹14.5L)</strong> — Hybrid efficiency, spacious, wide service network.<br>3. <strong>Kia Seltos HTX+ (₹17.65L)</strong> — Slightly over budget but worth the stretch for features.<br><br>💡 <em>Grand Vitara edges ahead with hybrid tech and Maruti service reliability.</em>`,
+  'Compare Creta vs Seltos specs': `<strong>⚖️ Hyundai Creta vs Kia Seltos:</strong><br><br><table style="width:100%;font-size:12px;border-collapse:collapse"><tr><th style="text-align:left;padding:4px;color:var(--accent)">Spec</th><th style="padding:4px;color:var(--accent)">Creta</th><th style="padding:4px;color:var(--accent)">Seltos</th></tr><tr><td style="padding:4px;color:var(--text-muted)">Price</td><td style="padding:4px">₹19.2L</td><td style="padding:4px">₹17.65L</td></tr><tr><td style="padding:4px;color:var(--text-muted)">Power</td><td style="padding:4px">140 bhp</td><td style="padding:4px">138 bhp</td></tr><tr><td style="padding:4px;color:var(--text-muted)">NCAP</td><td style="padding:4px">5-star ✓</td><td style="padding:4px">3-star</td></tr><tr><td style="padding:4px;color:var(--text-muted)">Rating</td><td style="padding:4px">4.4 ⭐</td><td style="padding:4px">4.4 ⭐</td></tr></table><br>🏆 <strong>Creta</strong> edges on safety. <strong>Seltos</strong> on value. Hyundai-Kia twins!`,
+}
+
+// ─── State ────────────────────────────────────────────────────────────────
+let compareList = []  // max 4 car ids
+let activeFilter = 'all'
+let searchQuery  = ''
+
+// ─── Boot ────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildMarquee()
+  renderGrid()
+  animateStats()
+  setupScrollReveal()
+  setupRipples()
+})
+
+// ─── Marquee ──────────────────────────────────────────────────────────────
+function buildMarquee() {
+  const el = document.getElementById('marquee')
+  const repeated = [...TECH_STACK, ...TECH_STACK]  // duplicate for infinite scroll
+  el.innerHTML = repeated.map(t =>
+    `<div class="marquee-item"><span>${t.icon}</span><span style="color:var(--text-muted)">${t.name}</span></div>`
+  ).join('')
+}
+
+// ─── Stat Counter ────────────────────────────────────────────────────────
+function animateStats() {
+  const targets = { 'stat-cars':20, 'stat-features':50, 'stat-ev':5, 'stat-awards':9 }
+  const suffixes = { 'stat-cars':'', 'stat-features':'+', 'stat-ev':'', 'stat-awards':'' }
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        Object.entries(targets).forEach(([id, target]) => countUp(id, target, suffixes[id]))
+        obs.disconnect()
+      }
+    })
+  }, { threshold: .3 })
+  obs.observe(document.getElementById('statsSection'))
+}
+
+function countUp(id, target, suffix='') {
+  const el = document.getElementById(id)
+  let current = 0
+  const step = target / 60
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target)
+    el.textContent = Math.floor(current) + suffix
+    if (current >= target) { el.textContent = target + suffix; clearInterval(timer) }
+  }, 18)
+}
+
+// ─── Grid rendering ──────────────────────────────────────────────────────
+function getFilteredCars() {
+  return CARS.filter(c => {
+    const matchFilter =
+      activeFilter === 'all' ? true :
+      activeFilter === 'ev'  ? c.isEV :
+      activeFilter === 'petrol'  ? c.fuel === 'petrol' :
+      activeFilter === 'diesel'  ? c.fuel === 'diesel'  :
+      activeFilter === 'luxury'  ? c.segment === 'luxury' :
+      c.segment === activeFilter
+
+    const matchSearch = searchQuery === '' ||
+      `${c.brand} ${c.model} ${c.variant} ${c.segment} ${c.fuel}`.toLowerCase().includes(searchQuery.toLowerCase())
+
+    return matchFilter && matchSearch
+  })
+}
+
+function renderGrid() {
+  const grid   = document.getElementById('carGrid')
+  const count  = document.getElementById('carCount')
+  const filtered = getFilteredCars()
+
+  count.textContent = `${filtered.length} Car${filtered.length !== 1 ? 's' : ''}`
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted)">
+      <div style="font-size:48px;margin-bottom:12px">🔍</div>
+      <div style="font-size:18px;font-weight:700">No cars found</div>
+      <div style="font-size:13px;margin-top:6px">Try a different filter or search term</div>
+    </div>`
+    return
+  }
+
+  grid.innerHTML = filtered.map((car, i) => carCardHTML(car, i)).join('')
+
+  // Staggered fade-in
+  grid.querySelectorAll('.car-card').forEach((el, i) => {
+    setTimeout(() => {
+      el.style.transition = 'opacity .4s ease, transform .4s ease'
+      el.style.opacity = '1'
+      el.style.transform = 'none'
+    }, i * 55)
+  })
+}
+
+function carCardHTML(car, i) {
+  const inCompare = compareList.includes(car.id)
+  const stars = '⭐'.repeat(Math.round(car.rating))
+  const fuelIcon = car.fuel === 'electric' ? '⚡' : car.fuel === 'diesel' ? '🛢️' : '⛽'
+
+  return `
+    <div class="car-card${inCompare ? ' in-compare' : ''}" id="card-${car.id}"
+         style="transform:translateY(20px)" onclick="toggleCompare('${car.id}')">
+      <div class="img-wrap">
+        <img
+          src="${car.img}"
+          alt="${car.brand} ${car.model}"
+          loading="lazy"
+          onerror="this.src='https://placehold.co/400x225/0D1526/00D4FF?text=${encodeURIComponent(car.brand+' '+car.model)}'"
+        />
+        ${car.isEV ? '<div class="badge-ev">EV</div>' : ''}
+        ${car.popular ? '<div class="badge-popular">🔥 Popular</div>' : ''}
+        <button class="compare-btn${inCompare ? ' added' : ''}" title="${inCompare ? 'Remove from compare' : 'Add to compare'}">
+          ${inCompare ? '✓' : '+'}
+        </button>
+      </div>
+      <div class="car-body">
+        <div class="car-brand">${car.brand}</div>
+        <div class="car-name">${car.model}</div>
+        <div class="car-variant">${car.variant}</div>
+        <div class="car-stats">
+          <span class="car-stat-chip"><span>${fuelIcon}</span>${car.mileage}</span>
+          <span class="car-stat-chip"><span>⚡</span>${car.power}</span>
+        </div>
+        <div class="car-footer">
+          <span class="car-price mono">₹${car.price}L</span>
+          <span class="car-rating">⭐ ${car.rating} <span style="color:var(--text-dim);font-size:11px;font-weight:500">(${car.reviews.toLocaleString('en-IN')})</span></span>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+// ─── Filter ───────────────────────────────────────────────────────────────
+function setFilter(filter, el) {
+  activeFilter = filter
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'))
+  el.classList.add('active')
+  renderGrid()
+}
+
+// ─── Search ───────────────────────────────────────────────────────────────
+function handleSearch(input) {
+  searchQuery = input.value
+  const clearBtn = document.getElementById('searchClear')
+  clearBtn.classList.toggle('visible', searchQuery.length > 0)
+  renderGrid()
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = ''
+  searchQuery = ''
+  document.getElementById('searchClear').classList.remove('visible')
+  renderGrid()
+}
+
+// ─── Compare ──────────────────────────────────────────────────────────────
+function toggleCompare(id) {
+  const already = compareList.indexOf(id)
+  if (already > -1) {
+    compareList.splice(already, 1)
+    showToast(`Removed from compare`)
+  } else {
+    if (compareList.length >= 4) {
+      showToast('⚠️ Max 4 cars in compare', '#FF6B35')
+      shakeCar(id)
+      return
+    }
+    compareList.push(id)
+    showToast(`✓ Added to compare (${compareList.length}/4)`)
+  }
+
+  // Update card UI without full re-render
+  const card = document.getElementById(`card-${id}`)
+  if (card) {
+    card.classList.toggle('in-compare', compareList.includes(id))
+    const btn = card.querySelector('.compare-btn')
+    if (btn) {
+      btn.classList.toggle('added', compareList.includes(id))
+      btn.textContent = compareList.includes(id) ? '✓' : '+'
+    }
+  }
+
+  updateCompareBar()
+}
+
+function shakeCar(id) {
+  const card = document.getElementById(`card-${id}`)
+  if (!card) return
+  card.style.animation = 'none'
+  card.getBoundingClientRect()
+  card.style.animation = 'shake .4s ease'
+  setTimeout(() => card.style.animation = '', 400)
+}
+
+function updateCompareBar() {
+  const bar   = document.getElementById('compareBar')
+  const slots = document.getElementById('compareSlots')
+
+  bar.classList.toggle('visible', compareList.length > 0)
+
+  const slotsHTML = []
+  for (let i = 0; i < 4; i++) {
+    const carId = compareList[i]
+    if (carId) {
+      const car = CARS.find(c => c.id === carId)
+      slotsHTML.push(`
+        <div class="compare-slot filled">
+          <img src="${car.img}" alt="${car.model}" onerror="this.src='https://placehold.co/52x36/0D1526/00D4FF?text=${encodeURIComponent(car.model)}'" />
+          <div class="compare-slot-info">
+            <div class="name">${car.brand} ${car.model}</div>
+            <div class="price mono">₹${car.price}L</div>
+          </div>
+          <button class="slot-remove" onclick="event.stopPropagation();toggleCompare('${carId}')">✕</button>
+        </div>
+      `)
+    } else {
+      slotsHTML.push(`<div class="compare-slot"><span class="compare-slot-empty">+ Add a car</span></div>`)
+    }
+  }
+  slots.innerHTML = slotsHTML.join('')
+}
+
+function clearCompare() {
+  compareList = []
+  updateCompareBar()
+  renderGrid()
+  showToast('Compare list cleared')
+}
+
+function doCompare() {
+  if (compareList.length < 2) { showToast('⚠️ Pick at least 2 cars to compare', '#FF6B35'); return }
+  const names = compareList.map(id => { const c = CARS.find(x => x.id === id); return `${c.brand} ${c.model}` }).join(' vs ')
+  showToast(`📊 Comparing: ${names}`, '#00D4FF')
+}
+
+// ─── AI Modal ─────────────────────────────────────────────────────────────
+function openAI() {
+  document.getElementById('aiModal').classList.add('open')
+  setTimeout(() => document.getElementById('aiPrompt').focus(), 100)
+}
+
+function closeAI() {
+  document.getElementById('aiModal').classList.remove('open')
+}
+
+function closeIfOverlay(e) {
+  if (e.target === document.getElementById('aiModal')) closeAI()
+}
+
+function setPrompt(el) {
+  document.getElementById('aiPrompt').value = el.textContent
+}
+
+function clearPrompt() {
+  document.getElementById('aiPrompt').value = ''
+  document.getElementById('aiResponse').classList.remove('show')
+  document.getElementById('aiResponse').innerHTML = ''
+}
+
+function submitAI() {
+  const prompt  = document.getElementById('aiPrompt').value.trim()
+  const respDiv = document.getElementById('aiResponse')
+  if (!prompt) { showToast('⚠️ Type a question first', '#FF6B35'); return }
+
+  // Show typing animation
+  respDiv.classList.add('show')
+  respDiv.innerHTML = `<div class="ai-typing"><span></span><span></span><span></span></div>`
+
+  setTimeout(() => {
+    // Look up canned response or generate generic
+    const key = Object.keys(AI_RESPONSES).find(k => prompt.toLowerCase() === k.toLowerCase())
+    const response = key ? AI_RESPONSES[key] :
+      `<strong>🤖 AI Analysis:</strong><br><br>Based on your query "<em>${prompt}</em>", I'd recommend exploring our database. Here are key factors to consider:<br><br>
+      • <strong>Budget</strong>: Set your max ex-showroom price<br>
+      • <strong>Segment</strong>: Hatchback, Sedan, or SUV?<br>
+      • <strong>Fuel</strong>: EV for low running costs, Petrol for wide availability<br>
+      • <strong>Mileage</strong>: Consider kms driven monthly<br><br>
+      <em>Try one of the quick prompts above for detailed comparisons! 🚗</em>`
+
+    respDiv.innerHTML = response
+  }, 1800)
+}
+
+// Keyboard shortcut for AI
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openAI() }
+  if (e.key === 'Escape') closeAI()
+})
+
+// ─── Toast ────────────────────────────────────────────────────────────────
+let toastTimer
+function showToast(msg, color = '#00D4FF') {
+  const toast = document.getElementById('toast')
+  toast.textContent = msg
+  toast.style.color = color
+  toast.style.borderColor = color + '50'
+  toast.classList.add('show')
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800)
+}
+
+// ─── Scroll Reveal ────────────────────────────────────────────────────────
+function setupScrollReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
+  }, { threshold: .12 })
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el))
+}
+
+// ─── Ripple Effect ────────────────────────────────────────────────────────
+function setupRipples() {
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.ripple-container')
+    if (!btn) return
+    const rect  = btn.getBoundingClientRect()
+    const size  = Math.max(rect.width, rect.height) * 2
+    const wave  = document.createElement('span')
+    wave.className = 'ripple-wave'
+    Object.assign(wave.style, {
+      width: size + 'px', height: size + 'px',
+      left:  (e.clientX - rect.left - size/2) + 'px',
+      top:   (e.clientY - rect.top  - size/2) + 'px',
+    })
+    btn.appendChild(wave)
+    setTimeout(() => wave.remove(), 700)
+  })
+}
+
+// ─── Navbar scroll shadow ─────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav  = document.getElementById('navbar')
+  const bar  = document.getElementById('compareBar')
+  nav.style.boxShadow = window.scrollY > 20
+    ? '0 4px 32px rgba(0,0,0,.5)'
+    : ''
+
+  // Offset compare bar above footer-like region (if needed)
+  bar.style.paddingBottom = compareList.length ? '14px' : '14px'
+})
+
+// ─── Shake keyframe injection ─────────────────────────────────────────────
+const style = document.createElement('style')
+style.textContent = `@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+}`
+document.head.appendChild(style)
+</script>
+</body>
+</html>
