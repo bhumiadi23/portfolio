@@ -13,6 +13,10 @@
     <img src="https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white" alt="Three JS" />
     <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion" />
   </p>
+  
+  <p>
+    <img src="https://img.shields.io/badge/CodeChef-50_Days_Streak-FFD700?style=for-the-badge&logo=codechef&logoColor=black" alt="CodeChef 50 Days Streak Gold Badge" />
+  </p>
 </div>
 
 ---
