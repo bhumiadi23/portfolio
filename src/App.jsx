@@ -461,6 +461,12 @@ const myProjects = [
     metrics: ['Microservices architecture', 'Real-time WebRTC signaling', 'Zero-knowledge end-to-end encryption'],
     tech: ['React', 'WebRTC', 'Node.js', 'Microservices'], color: '#ef4444', icon: <Globe size={24} />, link: 'https://github.com/bhumiadi23/portfolio/tree/main/swiftshare', stars: 35, status: 'Complete'
   },
+  {
+    id: 14, name: 'Gram Samadhan',
+    description: 'A comprehensive Gram Panchayat management and digital grievance redressal system for rural governance.',
+    metrics: ['Digital governance platform', 'Citizen grievance tracking', 'Rural development transparency'],
+    tech: ['React', 'Node.js', 'Web'], color: '#f59e0b', icon: <MapPin size={24} />, link: 'https://github.com/bhumiadi23/gram-samadhan', stars: 0, status: 'Active'
+  },
 ];
 
 const skills = [
@@ -627,7 +633,7 @@ export default function App() {
           </motion.div>
           <motion.div className="hero-stats" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}>
             {[
-              { label: 'Projects Built',  value: '20',  suffix: '+' },
+              { label: 'Projects Built',  value: '21',  suffix: '+' },
               { label: 'Problems Solved', value: '600', suffix: '+' },
               { label: 'Certifications', value: '15',  suffix: '+' },
             ].map(s => (
