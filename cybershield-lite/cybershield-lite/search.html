@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Investigate — CyberShield</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar"></aside>
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h2>Threat Investigation</h2>
+        <div class="subtitle">// SEARCH & ANALYSIS</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border2)">
+      <button class="tab-btn active" onclick="showTab('browse')">📋 Browse Reports</button>
+      <button class="tab-btn" onclick="showTab('number')">📞 Number Intel</button>
+      <button class="tab-btn" onclick="showTab('url')">🔗 URL Checker</button>
+    </div>
+
+    <!-- Browse Reports -->
+    <div id="tab-browse">
+      <div class="filter-row">
+        <input type="text" id="search-q" placeholder="Search reports..." oninput="filterReports()" style="flex:2">
+        <select id="filter-type" onchange="filterReports()">
+          <option value="">All Categories</option>
+          <option>Phishing</option><option>Phone Scam</option><option>Crypto Fraud</option>
+          <option>Banking Fraud</option><option>Tech Support Scam</option><option>Lottery Scam</option>
+          <option>Romance Scam</option><option>Investment Fraud</option>
+        </select>
+        <select id="filter-status" onchange="filterReports()">
+          <option value="">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="investigating">Investigating</option>
+          <option value="solved">Solved</option>
+        </select>
+      </div>
+      <div id="browse-results"><div class="loading">Loading reports</div></div>
+    </div>
+
+    <!-- Number Intel -->
+    <div id="tab-number" style="display:none">
+      <div class="card" style="margin-bottom:20px">
+        <h3 style="font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:2px;margin-bottom:16px">📞 PHONE NUMBER INTELLIGENCE</h3>
+        <form id="number-form" onsubmit="return false" style="display:flex;gap:12px">
+          <input type="text" id="search-number" placeholder="+1-800-555-0199" style="flex:1">
+          <button class="btn btn-primary" type="submit">SCAN</button>
+        </form>
+      </div>
+      <div id="number-results"></div>
+    </div>
+
+    <!-- URL Checker -->
+    <div id="tab-url" style="display:none">
+      <div class="card" style="margin-bottom:20px">
+        <h3 style="font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:2px;margin-bottom:16px">🔗 URL THREAT ANALYSIS</h3>
+        <form id="url-form" onsubmit="return false" style="display:flex;gap:12px">
+          <input type="text" id="check-url" placeholder="http://suspicious-site.xyz" style="flex:1">
+          <button class="btn btn-primary" type="submit">ANALYZE</button>
+        </form>
+      </div>
+      <div id="url-results"></div>
+    </div>
+
+  </main>
+</div>
+<style>
+.tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text2);
+  padding: 10px 20px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+.tab-btn:hover { color: var(--text); }
+</style>
+<script src="js/app.js"></script>
+<script src="js/sidebar.js"></script>
+<script>
+let allReports = [];
+
+function showTab(tab) {
+  ['browse','number','url'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['browse','number','url'][i] === tab);
+  });
+}
+
+async function loadReports() {
+  allReports = await apiFetch('/reports?limit=100');
+  renderReportsList(allReports);
+}
+
+function filterReports() {
+  const q = document.getElementById('search-q').value.toLowerCase();
+  const type = document.getElementById('filter-type').value;
+  const status = document.getElementById('filter-status').value;
+  const filtered = allReports.filter(r => {
+    const matchQ = !q || (r.description||'').toLowerCase().includes(q) ||
+      (r.scam_number||'').includes(q) || (r.suspicious_url||'').toLowerCase().includes(q);
+    const matchType = !type || r.fraud_type === type;
+    const matchStatus = !status || r.status === status;
+    return matchQ && matchType && matchStatus;
+  });
+  renderReportsList(filtered);
+}
+
+function renderReportsList(reports) {
+  const el = document.getElementById('browse-results');
+  if (!reports.length) {
+    el.innerHTML = '<div class="empty-state"><div class="icon">🔍</div>No matching reports</div>';
+    return;
+  }
+  el.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>ID</th><th>Category</th><th>Number</th><th>URL</th><th>Description</th><th>Status</th><th>Date</th></tr></thead>
+    <tbody>${reports.map(r => `<tr>
+      <td class="mono text-muted">#${r.id}</td>
+      <td>${fraudIcon(r.fraud_type)} ${r.fraud_type}</td>
+      <td class="num-cell">${r.scam_number || '—'}</td>
+      <td class="url-cell" title="${r.suspicious_url || ''}">${r.suspicious_url ? truncate(r.suspicious_url, 30) : '—'}</td>
+      <td style="max-width:240px;font-size:12px">${truncate(r.description, 60)}</td>
+      <td>${statusBadge(r.status)}</td>
+      <td class="mono text-muted" style="font-size:11px;white-space:nowrap">${timeAgo(r.created_at)}</td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+async function init() {
+  await requireAuth();
+  renderSidebar('search');
+  loadReports();
+  initSearch();
+}
+init();
+</script>
+</body>
+</html>

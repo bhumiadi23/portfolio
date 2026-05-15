@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — CyberShield</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar"></aside>
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h2>Investigation Dashboard</h2>
+        <div class="subtitle">// REAL-TIME THREAT MONITORING</div>
+      </div>
+      <a href="report.html" class="btn btn-primary">+ New Report</a>
+    </div>
+
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card green"><div class="stat-label">Total Reports</div><div class="stat-value" id="stat-total">—</div></div>
+      <div class="stat-card cyan"><div class="stat-label">Investigating</div><div class="stat-value" id="stat-inv">—</div></div>
+      <div class="stat-card yellow"><div class="stat-label">Pending</div><div class="stat-value" id="stat-pending">—</div></div>
+      <div class="stat-card red"><div class="stat-label">Solved</div><div class="stat-value" id="stat-solved">—</div></div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>📈 Reports This Week</h3>
+        <canvas id="line-chart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>🗂 Fraud Categories</h3>
+        <canvas id="bar-chart"></canvas>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-header">
+        <h3>⚠ Recent Reports</h3>
+        <a href="search.html" class="btn btn-outline btn-sm">View All →</a>
+      </div>
+      <div id="recent-table"><div class="loading">Loading reports</div></div>
+    </div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+<script src="js/sidebar.js"></script>
+<script>
+async function init() {
+  const user = await requireAuth();
+  renderSidebar('dashboard');
+
+  const stats = await apiFetch('/reports/stats');
+  document.getElementById('stat-total').textContent = stats.total;
+  document.getElementById('stat-inv').textContent = stats.investigating;
+  document.getElementById('stat-pending').textContent = stats.pending;
+  document.getElementById('stat-solved').textContent = stats.solved;
+
+  // Line chart - activity this week
+  const days = stats.byDay;
+  drawLineChart('line-chart', days.map(d => d.day), days.map(d => d.count));
+
+  // Bar chart - fraud types
+  drawBarChart('bar-chart',
+    stats.byType.map(t => t.fraud_type),
+    stats.byType.map(t => t.count));
+
+  // Recent reports table
+  const tbody = stats.recent.map(r => `<tr>
+    <td class="mono text-muted">#${r.id}</td>
+    <td>${fraudIcon(r.fraud_type)} ${r.fraud_type}</td>
+    <td class="num-cell">${r.scam_number || '—'}</td>
+    <td class="url-cell">${r.suspicious_url || '—'}</td>
+    <td>${statusBadge(r.status)}</td>
+    <td class="mono text-muted" style="font-size:11px">${r.username || 'anonymous'}</td>
+    <td class="mono text-muted" style="font-size:11px">${timeAgo(r.created_at)}</td>
+  </tr>`).join('');
+
+  document.getElementById('recent-table').innerHTML = `<table>
+    <thead><tr><th>ID</th><th>Type</th><th>Number</th><th>URL</th><th>Status</th><th>Reporter</th><th>Time</th></tr></thead>
+    <tbody>${tbody || '<tr><td colspan="7"><div class="empty-state"><div class="icon">📭</div>No reports yet</div></td></tr>'}</tbody>
+  </table>`;
+}
+init();
+</script>
+</body>
+</html>

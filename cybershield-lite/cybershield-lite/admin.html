@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — CyberShield</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar"></aside>
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h2>Admin Control Panel</h2>
+        <div class="subtitle">// CASE MANAGEMENT SYSTEM</div>
+      </div>
+    </div>
+
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px" id="admin-stats">
+      <div class="stat-card green"><div class="stat-label">Total Reports</div><div class="stat-value" id="a-total">—</div></div>
+      <div class="stat-card yellow"><div class="stat-label">Pending</div><div class="stat-value" id="a-pending">—</div></div>
+      <div class="stat-card cyan"><div class="stat-label">Investigating</div><div class="stat-value" id="a-inv">—</div></div>
+      <div class="stat-card red"><div class="stat-label">Solved</div><div class="stat-value" id="a-solved">—</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border2)">
+      <button class="tab-btn active" onclick="showTab('reports')">📋 Reports</button>
+      <button class="tab-btn" onclick="showTab('users')">👥 Users</button>
+    </div>
+
+    <!-- Reports Tab -->
+    <div id="tab-reports">
+      <div class="filter-row" style="margin-bottom:16px">
+        <input type="text" id="search-q" placeholder="Search..." oninput="filterReports()" style="flex:2">
+        <select id="filter-type" onchange="filterReports()">
+          <option value="">All Types</option>
+          <option>Phishing</option><option>Phone Scam</option><option>Crypto Fraud</option>
+          <option>Banking Fraud</option><option>Tech Support Scam</option>
+        </select>
+        <select id="filter-status" onchange="filterReports()">
+          <option value="">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="investigating">Investigating</option>
+          <option value="solved">Solved</option>
+        </select>
+      </div>
+      <div id="reports-table"><div class="loading">Loading</div></div>
+    </div>
+
+    <!-- Users Tab -->
+    <div id="tab-users" style="display:none">
+      <div id="users-table"><div class="loading">Loading</div></div>
+    </div>
+  </main>
+</div>
+<style>
+.tab-btn { background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text2);padding:10px 20px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;letter-spacing:0.5px;margin-bottom:-1px;transition:all 0.2s; }
+.tab-btn.active { color:var(--green);border-bottom-color:var(--green); }
+</style>
+<script src="js/app.js"></script>
+<script src="js/sidebar.js"></script>
+<script>
+let allReports = [];
+
+function showTab(tab) {
+  ['reports','users'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['reports','users'][i] === tab));
+  if (tab === 'users') loadUsers();
+}
+
+async function loadStats() {
+  const s = await apiFetch('/reports/stats');
+  document.getElementById('a-total').textContent = s.total;
+  document.getElementById('a-pending').textContent = s.pending;
+  document.getElementById('a-inv').textContent = s.investigating;
+  document.getElementById('a-solved').textContent = s.solved;
+}
+
+async function loadReports() {
+  allReports = await apiFetch('/reports?limit=200');
+  renderTable(allReports);
+}
+
+function filterReports() {
+  const q = document.getElementById('search-q').value.toLowerCase();
+  const type = document.getElementById('filter-type').value;
+  const status = document.getElementById('filter-status').value;
+  renderTable(allReports.filter(r =>
+    (!q || (r.description||'').toLowerCase().includes(q) || (r.scam_number||'').includes(q) || (r.suspicious_url||'').toLowerCase().includes(q)) &&
+    (!type || r.fraud_type === type) && (!status || r.status === status)
+  ));
+}
+
+function renderTable(reports) {
+  const el = document.getElementById('reports-table');
+  if (!reports.length) { el.innerHTML = '<div class="empty-state"><div class="icon">📭</div>No reports</div>'; return; }
+
+  el.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>ID</th><th>Reporter</th><th>Type</th><th>Number</th><th>URL</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>${reports.map(r => `<tr id="row-${r.id}">
+      <td class="mono text-muted">#${r.id}</td>
+      <td class="mono" style="font-size:12px">${r.username || 'anon'}</td>
+      <td>${fraudIcon(r.fraud_type)} ${r.fraud_type}</td>
+      <td class="num-cell">${r.scam_number || '—'}</td>
+      <td class="url-cell" title="${r.suspicious_url||''}">${r.suspicious_url ? truncate(r.suspicious_url,28) : '—'}</td>
+      <td>
+        <select onchange="updateStatus(${r.id}, this.value)" style="background:var(--bg2);border:1px solid var(--border2);color:var(--text);padding:4px 8px;font-size:11px;font-family:var(--mono)">
+          <option value="pending" ${r.status==='pending'?'selected':''}>pending</option>
+          <option value="investigating" ${r.status==='investigating'?'selected':''}>investigating</option>
+          <option value="solved" ${r.status==='solved'?'selected':''}>solved</option>
+        </select>
+      </td>
+      <td class="mono text-muted" style="font-size:11px">${timeAgo(r.created_at)}</td>
+      <td>
+        <button class="btn btn-danger btn-sm" onclick="deleteReport(${r.id})">🗑</button>
+      </td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+async function updateStatus(id, status) {
+  try {
+    await apiFetch(`/reports/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status }) });
+    toast(`Report #${id} → ${status}`);
+    loadStats();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function deleteReport(id) {
+  if (!confirm(`Delete report #${id}?`)) return;
+  try {
+    await apiFetch(`/reports/${id}`, { method: 'DELETE' });
+    document.getElementById(`row-${id}`)?.remove();
+    toast(`Report #${id} deleted`);
+    loadStats();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function loadUsers() {
+  const users = await apiFetch('/admin/users');
+  const el = document.getElementById('users-table');
+  el.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead>
+    <tbody>${users.map(u => `<tr id="urow-${u.id}">
+      <td class="mono text-muted">#${u.id}</td>
+      <td class="mono text-green">${u.username}</td>
+      <td style="font-size:13px">${u.email}</td>
+      <td><span class="tag">${u.role}</span></td>
+      <td class="mono text-muted" style="font-size:11px">${timeAgo(u.created_at)}</td>
+      <td>${u.role !== 'admin' ? `<button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">🗑</button>` : '<span class="text-muted mono" style="font-size:11px">protected</span>'}</td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+async function deleteUser(id) {
+  if (!confirm('Delete this user and all their reports?')) return;
+  try {
+    await apiFetch(`/admin/users/${id}`, { method: 'DELETE' });
+    document.getElementById(`urow-${id}`)?.remove();
+    toast('User deleted');
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function init() {
+  await requireAuth(true); // admin only
+  renderSidebar('admin');
+  await Promise.all([loadStats(), loadReports()]);
+}
+init();
+</script>
+</body>
+</html>
