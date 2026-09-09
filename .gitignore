@@ -22,3 +22,18 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Unrelated subprojects & archives
+cybershield-lite*
+autoiq-arena/
+birthday/
+devpulse/
+expense-tracker/
+gram-samadhan/
+instagram-clone/
+it-support-copilot/
+second-brain-ai/
+swiftshare/
+verisight-ai/
+*.py
+*.zip
