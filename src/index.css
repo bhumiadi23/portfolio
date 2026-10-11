@@ -1,61 +1,169 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
 @import "tailwindcss";
 
-:root {
-  color-scheme: dark;
-  font-family: 'Outfit', system-ui, sans-serif;
+@layer base {
+  :root {
+    color-scheme: light;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #FDFBF7;
+    color: #2D1B28;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #FDFBF7;
+    color: #2D1B28;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #160410;
-  color: #fff;
+/* Custom Romantic Typography Classes */
+.font-cormorant {
+  font-family: 'Cormorant Garamond', Georgia, serif;
 }
 
-#root { width: 100%; height: 100%; }
-
-.glass-pink {
-  background: rgba(45, 10, 32, 0.75);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid rgba(244, 63, 94, 0.35);
+.font-playfair {
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
-/* Hide scrollbar but allow scroll */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Card flip */
-.perspective { perspective: 1200px; }
-.preserve-3d { transform-style: preserve-3d; }
-.backface-hidden { backface-visibility: hidden; }
-.rotate-y-180 { transform: rotateY(180deg); }
-
-/* Heartbeat */
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  15% { transform: scale(1.18); }
-  30% { transform: scale(1); }
-  45% { transform: scale(1.12); }
+.font-script {
+  font-family: 'Great Vibes', cursive;
 }
-.animate-heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
 
-/* Float */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+.font-body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
-.animate-float { animation: float 3s ease-in-out infinite; }
 
-/* Glow pulse */
-@keyframes glowpulse {
-  0%, 100% { box-shadow: 0 0 25px rgba(244,63,94,0.5), 0 0 50px rgba(236,72,153,0.3); }
-  50% { box-shadow: 0 0 55px rgba(244,63,94,0.9), 0 0 90px rgba(236,72,153,0.6); }
+/* Realistic Paper Letter Texture & Shadow */
+.paper-card {
+  background-color: #FFFDF9;
+  background-image: 
+    radial-gradient(#881337 0.45px, transparent 0.45px),
+    radial-gradient(#881337 0.45px, #FFFDF9 0.45px);
+  background-size: 18px 18px;
+  background-position: 0 0, 9px 9px;
+  background-color: #FFFDF9;
+  box-shadow: 
+    0 1px 3px rgba(136, 19, 55, 0.04),
+    0 12px 36px -8px rgba(136, 19, 55, 0.09),
+    0 30px 60px -20px rgba(136, 19, 55, 0.08),
+    0 0 0 1px rgba(226, 206, 212, 0.45);
 }
-.animate-glow { animation: glowpulse 2s ease-in-out infinite; }
+
+.paper-lined {
+  background: 
+    repeating-linear-gradient(
+      transparent,
+      transparent 31px,
+      rgba(244, 114, 182, 0.12) 31px,
+      rgba(244, 114, 182, 0.12) 32px
+    ),
+    #FFFDF9;
+}
+
+/* 3D Wax Seal Effect */
+.wax-seal {
+  background: radial-gradient(circle at 35% 32%, #BE123C 0%, #9F1239 45%, #881337 75%, #4C0519 100%);
+  box-shadow: 
+    0 6px 18px rgba(136, 19, 55, 0.35),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.45);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.wax-seal:hover {
+  transform: scale(1.06);
+  box-shadow: 
+    0 10px 25px rgba(136, 19, 55, 0.45),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.45);
+}
+
+/* Soft Romantic Glassmorphism */
+.glass-card {
+  background: rgba(255, 253, 249, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(243, 182, 206, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(136, 19, 55, 0.07);
+}
+
+.glass-card-hover {
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 253, 249, 0.94);
+  border-color: rgba(243, 182, 206, 0.65);
+  box-shadow: 
+    0 16px 40px -12px rgba(136, 19, 55, 0.12),
+    0 0 20px rgba(244, 114, 182, 0.15);
+}
+
+/* Animations */
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 8px rgba(225, 29, 72, 0.35));
+  }
+  50% {
+    transform: scale(1.07);
+    opacity: 1;
+    filter: drop-shadow(0 0 18px rgba(225, 29, 72, 0.65));
+  }
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(1deg); }
+}
+
+.animate-gentle-float {
+  animation: gentleFloat 5s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FDFBF7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E8B4C8;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C46D8E;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

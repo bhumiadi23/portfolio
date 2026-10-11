@@ -1,125 +1,198 @@
-# ❤️ Her Birthday — A Little World Made Just For Her
+# For My Annuva ❤️ — A Romantic Apology Website
 
-A premium, cinematic, highly interactive personalized birthday web application and interactive love story experience designed for your girlfriend.
-
----
-
-## 🌟 Features Overview
-
-- **Cinematic Preloader & Loading Screen**: Heartbeat pulse, animated progress indicator, floating particle background.
-- **Interactive Landing ("Enter My World")**: Autoplay-compliant audio initializer & full-screen invitation.
-- **Kinetic Name Reveal**: Cinematic blur, glow, and letter-by-letter reveal for `[HER_NAME]`.
-- **Live Birthday Countdown**: Days, Hours, Minutes, Seconds ticker targeting `birthdayDate`; automatically triggers fireworks and confetti upon completion.
-- **Hero Video & Memory Videos**: Fullscreen video section with custom glassmorphism controls (play/pause, mute/unmute, progress bar, fullscreen, and fallback posters).
-- **Interactive Story Timeline**: Responsive alternating cards (vertical on mobile) with custom date badges, photos/videos, and glowing scroll lines.
-- **Masonry Memory Gallery & Lightbox**: Image zoom hover effects, captions, lazy loading, and full-screen view.
-- **Polaroid Wall**: Scattered Polaroid cards with subtle random rotations that straighten and elevate on hover/tap.
-- **3D Tilt Memory Cards**: Mouse-tracking 3D tilt effects with parallax layers.
-- **"Watch This When You Miss Me"**: Hidden video section with custom unlock CTA and emotional personal message.
-- **"Reasons I Love You" & Random Love Message**: Interactive flip cards + "Give me a random reason ❤️" modal generator.
-- **"Catch My Love" Mini-Game**: Interactive floating hearts game with particle explosion physics, love score counter, and unlockable secret reward at 10 points.
-- **Digital Canvas Scratch Card**: Interactive canvas overlay allowing her to scratch off the overlay to reveal a hidden love note.
-- **Secret Passcode Lock**: Password entry input ("There's something here that only you can unlock") with unlock animation and custom hint/messages.
-- **Hidden Hearts Collector (10/10)**: 10 hidden interactive mini-hearts scattered across sections with a floating counter and secret celebration modal.
-- **Interactive Memory Map**: Custom map layout showcasing key relationship milestones & location cards.
-- **"If Our Love Were..." Grid**: Romantic flip cards exploring analogies (movie, song, season, place).
-- **Future Letter & Envelope**: Interactive 3D opening envelope revealing handwritten-style letter.
-- **Virtual 3D Gift Box**: Shake & unwrap animation with light burst particles revealing customized surprise message.
-- **Interactive Birthday Cake & Candle Blowing**: SVG/Canvas birthday cake with lit candle flames. Supports candle tap/click or blowing out candles to dim lights, launch fireworks & confetti!
-- **Handwritten Love Letter & Voice Note**: Romantic full-width letter section + custom voice recording audio player with waveform visualizer.
-- **Cinematic Final Video Climax & Staggered Love Reveal**: Screen-fade to black video player leading into grand multi-line staggered text reveal ("Happy Birthday, [HER_NAME] ❤️... I love you.").
-- **Starry Finale Screen**: Dark starry sky finale with author signature (`— [YOUR_NAME]`) and "Replay our story ↻" scroll-to-top CTA.
-- **Full Mobile Optimization & Media Fallbacks**: Touch-friendly tap targets, zero horizontal overflow, and built-in fallback components so missing media files never crash the app!
+A cinematic, interactive apology and love letter website created by **Nestle** for **Annuva**. Designed with genuine sincerity, respect, and emotional care.
 
 ---
 
-## 🚀 Quick Setup Instructions
+## ✨ Features & Experiences
 
-### STEP 1: Install Node.js
-Ensure Node.js (v18 or higher) is installed on your machine.
+1. **Opening Screen — “For My Annuva”**
+   - Soft pulsing glowing heart with warm ivory and cream aesthetic.
+   - Cinematic welcome message from Nestle.
+   - Interactive 3D animated envelope with a wax-seal heart stamped in ruby tones.
+   - Unfolds smoothly upon clicking the seal or the *"Open my letter 💌"* button.
 
-### STEP 2: Install Dependencies
-Open your terminal in the project directory and run:
+2. **The Apology Letter**
+   - Realistic stationery letter on parchment card with deckle borders, realistic paper creases, and soft drop shadows.
+   - Unfolds paragraph by paragraph with delicate staggered fade-and-rise animations.
+   - Authentic handwritten cursive sign-off: *"Always yours, Your Nestle ❤️"*.
+
+3. **What I Want You to Know**
+   - Three interactive cards with custom delicate SVG illustrations:
+     - **Card 1: “Your Feelings Matter”** (Cupped Hands & Heart)
+     - **Card 2: “I Want to Do Better”** (Budding Sprout with Heart Petals)
+     - **Card 3: “You Don't Have to Rush”** (Peaceful Drifting Hourglass)
+   - Interactive expansion revealing deeper reflections on patience and care.
+
+4. **Our Little World**
+   - Heading: *“Even when we have difficult days, our story means something to me.”*
+   - Horizontal memory timeline featuring Polaroid-style photo frames with realistic tape detailing.
+   - Interactive lightbox modal to view moments up close.
+   - Easily customizable photo placeholders in `src/data/apologyConfig.js`.
+
+5. **A Little Promise Tree 🌸**
+   - Interactive blooming cherry blossom tree with delicate organic branches.
+   - 5 glowing heart-shaped leaves/buds that blossom into Nestle's commitments when clicked:
+     - *“I will try to listen before reacting.”*
+     - *“I will respect your feelings, even when we disagree.”*
+     - *“I will work on the things that hurt you.”*
+     - *“I will show my love through my actions.”*
+     - *“I will remember that we're on the same team, even during arguments.”*
+   - Progress tracking with blooming floral aura when all commitments are revealed.
+
+6. **The Final Screen — “Whenever You're Ready”**
+   - Dreamy transition into soft blush pink and romantic magenta.
+   - Central glowing heart with a calm breathing aura.
+   - Two private, respectful buttons:
+     - *“I read your letter 💗”* — Displays a quiet acknowledgment without pressure.
+     - *“I want to talk to you 💌”* — Unveils: *“Whenever you're ready, I'm here to listen. No pressure, no arguments — just us, talking honestly.”*
+   - **Privacy Guarantee**: Neither button sends external network requests or logs her response. Completely private and pressure-free.
+
+7. **Final Interactive Decision — “Can We Make Things Better? ❤️”**
+   - Displays: *“My Annuva, one last little question… 🥺❤️”* and *“Would you give us a chance to talk, understand each other, and make things better?”*
+   - **Button 1: “Yes, let's talk ❤️”**:
+     - Triggers heart celebration confetti animation.
+     - Sends an email notification to Nestle via EmailJS with the website name, event (*“Annuva clicked Yes”*), and exact date and time.
+     - Displays: *“Thank you, my love. ❤️ I'm happy you're willing to talk. I'll do my best to listen, understand you, and make things better.”*
+     - Prevents duplicate email notifications during the same visit.
+     - Shows a gentle error/retry message if the network request fails.
+   - **Button 2: “Not ready yet 💗”**:
+     - Displays: *“That's okay, my love. Take all the time you need. ❤️ I respect your feelings, and you don't have to make a decision before you're ready.”*
+     - Strictly sends **no** email notification.
+     - Allows her to return to the letter or browse peacefully with zero pressure.
+
+8. **Atmosphere & Music**
+   - Canvas-based soft cherry blossom petals and glowing particles with subtle drift.
+   - Floating audio controller: stays paused by default until Annuva chooses to play.
+   - Dual audio engine: plays `/media/music/bg-music.mp3` or seamlessly falls back to a built-in Web Audio API gentle acoustic piano synthesizer.
+   - Fully supports `prefers-reduced-motion` for accessibility.
+
+---
+
+## 💌 EmailJS Setup Guide (Free, 2 Minutes)
+
+To receive real email notifications directly in your inbox when Annuva clicks **“Yes, let's talk ❤️”**:
+
+1. Create a free account at [EmailJS](https://www.emailjs.com/).
+2. **Add an Email Service**:
+   - Go to **Email Services** → **Add New Service** (select Gmail or your preferred provider).
+   - Connect your email and copy the **Service ID** (e.g. `service_xxxx`).
+3. **Create an Email Template**:
+   - Go to **Email Templates** → **Create New Template**.
+   - Set Subject: `❤️ Annuva wants to talk! | Apology Website Response`
+   - In the Template Content, write:
+     ```
+     {{message}}
+
+     Website: {{website_name}}
+     Event: {{event}}
+     Date & Time: {{date_time}}
+     ```
+   - In the **Settings** / **To Email** field, enter your email address (Nestle's email).
+   - Save and copy the **Template ID** (e.g. `template_xxxx`).
+4. **Get your Public Key**:
+   - Go to **Account** → **API Keys** → Copy your **Public Key** (e.g. `user_xxxx` or `public_xxxx`).
+5. **Add to `.env` file** (or Vercel Environment Variables):
+   ```env
+   VITE_EMAILJS_SERVICE_ID=service_xxxx
+   VITE_EMAILJS_TEMPLATE_ID=template_xxxx
+   VITE_EMAILJS_PUBLIC_KEY=your_public_key
+   ```
+*(Restart your dev server with `npm run dev` after updating `.env`).*
+
+---
+
+
+## 🛠️ Tech Stack
+
+- **React 19**
+- **Vite 8**
+- **Tailwind CSS v4**
+- **Framer Motion**
+- **Lucide Icons**
+
+---
+
+## 🚀 Running Locally
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+3. Open your browser at the local URL (usually `http://localhost:5173`).
+
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+5. **Preview production build**:
+   ```bash
+   npm run preview
+   ```
+
+---
+
+## 🎨 How to Customize Content & Photos
+
+All text, memories, letter paragraphs, and music can be edited in a single file:
+👉 **`src/data/apologyConfig.js`**
+
+### To replace photos with your real pictures:
+1. Place your photos in the `public/photos/` folder (e.g. `public/photos/our-memory.jpg`).
+2. Open `src/data/apologyConfig.js` and update the `memoriesSection.items` array:
+   ```javascript
+   {
+     id: 1,
+     title: "Your Custom Title",
+     date: "Your Date",
+     tag: "Memory",
+     image: "/photos/our-memory.jpg",
+     note: "Your personal note..."
+   }
+   ```
+
+---
+
+## 🌐 Deploying to Vercel
+
+### Option 1: Via Vercel Web Dashboard (Recommended)
+1. Push this project to your GitHub account:
+   ```bash
+   git add .
+   git commit -m "feat: romantic apology website for Annuva"
+   git push origin main
+   ```
+2. Go to [vercel.com](https://vercel.com) and log in.
+3. Click **"Add New..."** -> **"Project"**.
+4. Select your GitHub repository.
+5. Vercel automatically detects **Vite**; keep the default settings:
+   - **Framework Preset**: Vite
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+6. Click **Deploy**. In under a minute, your website will be live with an HTTPS link (e.g., `https://for-annuva.vercel.app`).
+
+### Option 2: Via Vercel CLI
 ```bash
-npm install
+npm install -g vercel
+vercel
 ```
-
-### STEP 3: Run Development Server
-Start the local development server:
+Follow the interactive prompts to deploy. For production deployment, run:
 ```bash
-npm run dev
+vercel --prod
 ```
 
-### STEP 4: Open Local Development URL
-Open the URL shown in your terminal (usually `http://localhost:5173`) in your browser.
+### 🔒 Privacy Protection Tip
+If you want to keep the deployed link completely private between just the two of you:
+- In your Vercel project dashboard, go to **Settings** -> **Deployment Protection**.
+- Enable **Vercel Authentication** or **Password Protection** so only you and Annuva can access it.
 
 ---
 
-## 🎨 Personalization Guide
-
-### STEP 5: Edit Central Configuration
-All names, dates, messages, secret codes, and reasons are centralized in **ONE file**:
-```
-src/data/siteConfig.js
-```
-
-Open `src/data/siteConfig.js` and edit the placeholders:
-- `girlfriendName`: Her real name (e.g., "Sophia")
-- `nickname`: Her cute nickname (e.g., "Princess", "Sunshine")
-- `yourName`: Your name (e.g., "Alex")
-- `birthdayDate`: Her upcoming birthday date (e.g., `"2026-10-15T00:00:00"`)
-- `relationshipStartDate`: The date you started dating (e.g., `"2023-04-12"`)
-- `mainMessage`: Your main birthday message
-- `reasons`: Array of reasons why you love her
-- `randomMessages`: Array of random quick love notes
-- `secretLock`: Passcode and secret message
-- `futureLetter`: Your future letter content
-
-### STEP 6: Replace Media Files
-Place your real photos, videos, music, and voice recording inside the `public/media/` directory:
-
-```
-public/
-  media/
-    photos/
-      photo-01.jpg
-      photo-02.jpg
-      photo-03.jpg
-      photo-04.jpg
-      photo-05.jpg
-      photo-06.jpg
-    videos/
-      intro.mp4
-      memory-01.mp4
-      memory-02.mp4
-      final-video.mp4
-    music/
-      song-01.mp3
-      song-02.mp3
-    voice/
-      love-message.mp3
-```
-
-> **Note**: If you don't have a specific photo or video yet, don't worry! The site automatically displays romantic glowing placeholder cards so it will never crash or break.
-
----
-
-## 📦 Build & Deployment
-
-### STEP 7: Build for Production
-When you are ready to deploy, run:
-```bash
-npm run build
-```
-This generates a production-optimized static bundle in the `dist/` directory.
-
-### STEP 8: Deploy
-Deploy the contents of the `dist/` directory to any static web hosting provider:
-- **Vercel**: Import project and hit Deploy
-- **Netlify**: Drag and drop the `dist/` folder
-- **GitHub Pages**: Deploy static `dist/` branch
-
----
-
-## ❤️ Made with Love
-This experience was built with React, Vite, Tailwind CSS, Framer Motion, and GSAP.
+*Made with love, respect, and patience by Nestle ❤️*
