@@ -76,3 +76,105 @@ export async function sendYesDecisionNotification() {
     };
   }
 }
+
+/**
+ * Detects device info for the visit notification
+ */
+function getDeviceInfo() {
+  if (typeof window === 'undefined') return 'Unknown device';
+  const ua = navigator.userAgent || '';
+  let device = 'Desktop';
+  if (/iPad|Tablet/i.test(ua)) device = 'Tablet / iPad';
+  else if (/iPhone/i.test(ua)) device = 'Apple iPhone 📱';
+  else if (/Android/i.test(ua)) device = 'Android Phone 📱';
+  else if (/Mobile/i.test(ua)) device = 'Mobile Phone 📱';
+  else if (/Macintosh|Mac OS/i.test(ua)) device = 'Apple Mac 💻';
+  else if (/Windows/i.test(ua)) device = 'Windows PC 💻';
+
+  const screenRes = `${window.screen?.width || window.innerWidth}x${window.screen?.height || window.innerHeight}`;
+  return `${device} (${screenRes})`;
+}
+
+/**
+ * Sends a silent notification to Nestle the moment Annuva opens the website.
+ * Runs once per browsing session.
+ */
+export async function sendVisitNotification() {
+  // Prevent duplicate visit notifications in the same browsing session
+  if (typeof window !== 'undefined' && sessionStorage.getItem('annuva_visit_notified')) {
+    return { success: true, duplicate: true };
+  }
+
+  // Mark immediately in session storage so rapid rerenders never duplicate
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('annuva_visit_notified', 'true');
+  }
+
+  const now = new Date();
+  const formattedDateTime = now.toLocaleString('en-US', {
+    dateStyle: 'full',
+    timeStyle: 'medium',
+    timeZoneName: 'short',
+  });
+  const deviceInfo = getDeviceInfo();
+
+  // Optional Discord Webhook ping (if configured)
+  const discordWebhookUrl = import.meta.env.VITE_DISCORD_WEBHOOK_URL?.trim();
+  if (discordWebhookUrl) {
+    try {
+      fetch(discordWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          embeds: [
+            {
+              title: '💌 Annuva opened your apology website!',
+              description: `Annuva is viewing your apology letter right now.`,
+              color: 0xbe123c, // Rose Red
+              fields: [
+                { name: 'Device', value: deviceInfo, inline: true },
+                { name: 'Time', value: formattedDateTime, inline: true },
+              ],
+              footer: { text: 'For Annuva • From Nestle ❤️' },
+            },
+          ],
+        }),
+      }).catch(() => {});
+    } catch {
+      // ignore webhook silent fail
+    }
+  }
+
+  // EmailJS notification
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID?.trim();
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID?.trim();
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY?.trim();
+
+  if (!serviceId || !templateId || !publicKey) {
+    console.info(
+      '[Visit Notification] Visit logged locally. To receive email alerts, configure VITE_EMAILJS_* in your .env or Vercel.'
+    );
+    return { success: false, notConfigured: true };
+  }
+
+  const templateParams = {
+    website_name: apologyConfig.decision.websiteName,
+    event: 'Annuva opened the website 💌',
+    date_time: formattedDateTime,
+    timestamp: formattedDateTime,
+    recipient_name: apologyConfig.recipientName,
+    sender_name: apologyConfig.senderName,
+    device: deviceInfo,
+    message: `💌 ${apologyConfig.recipientName} just opened your apology website on ${deviceInfo} at ${formattedDateTime}!`,
+  };
+
+  try {
+    const res = await emailjs.send(serviceId, templateId, templateParams, publicKey);
+    return { success: res.status === 200 || res.text === 'OK' };
+  } catch (error) {
+    // Fail silently in the background without affecting Annuva's experience
+    console.warn('[Visit Notification Email failed silently]:', error);
+    return { success: false, error };
+  }
+}
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import FloatingParticles from './components/FloatingParticles';
 import OpeningScreen from './components/OpeningScreen';
@@ -9,15 +9,21 @@ import PromiseTree from './components/PromiseTree';
 import FinalScreen from './components/FinalScreen';
 import FinalDecision from './components/FinalDecision';
 import BackgroundMusicPlayer from './components/BackgroundMusicPlayer';
+import { sendVisitNotification } from './services/notificationService';
 import { Heart } from 'lucide-react';
-
 
 export default function App() {
   const [isLetterOpened, setIsLetterOpened] = useState(false);
 
+  // Silently notify Nestle that Annuva opened the website (fires once per session)
+  useEffect(() => {
+    sendVisitNotification().catch(() => {});
+  }, []);
+
   const handleOpenLetter = () => {
     setIsLetterOpened(true);
   };
+
 
   return (
     <div className="relative min-h-screen bg-[#FDFBF7] text-[#2D1B28] overflow-x-hidden selection:bg-rose-200/50 selection:text-[#881337]">
